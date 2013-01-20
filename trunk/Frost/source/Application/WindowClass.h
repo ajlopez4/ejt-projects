@@ -14,40 +14,18 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CApplication.h"
+#ifndef _MAINWINDOWCLASS_H_
+#define _MAINWINDOWCLASS_H_
 
-bool CApplication::Initialize() {
-	Mem = new CMemory;
+class WindowClass : public WNDCLASSEX {
+public:
+	WindowClass(HINSTANCE hInst, const char* className);
 
-	if(!Mem)
-		return false;
+	virtual bool Register();
+	virtual const char* className() const { return lpszClassName; }
 
-	if(!Mem->Initialize())
-		return false;
+protected:
 
-	ObjectManager = new CObjectManager;
+};
 
-	if(!ObjectManager)
-		return false;
-
-	if(!ObjectManager->Initialize())
-		return false;
-
-	ObjectManager->Pulse(); // Force pulse to get local player
-
-	return true;
-}
-
-void CApplication::Shutdown() {
-	if(Mem) {
-		delete Mem;
-		Mem = 0;
-	}
-
-	if(ObjectManager) {
-		delete ObjectManager;
-		ObjectManager = 0;
-	}
-
-	return;
-}
+#endif

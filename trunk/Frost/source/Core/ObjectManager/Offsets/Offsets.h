@@ -18,16 +18,23 @@
 #define _OFFSETS_H_
 
 namespace Offsets {
-	enum ObjectManager {
-		ObjectMgr = 0xE28428,
-		CurMgr = 0x462C,
-		FirstObject = 0xCC,
-		NextObject = 0x3C,
-		LocalGuid = 0xD0,
+	enum ObjectManager {		// 5.1.0.16357
+		ObjectMgr = 0xE28428,	// 5.1.0.16357
+		CurMgr = 0x462C,		// 5.1.0.16357
+		FirstObject = 0xCC,		// 5.1.0.16357
+		NextObject = 0x3C,		// 5.1.0.16357
+		LocalGuid = 0xD0,		// 5.1.0.16357
+		ObjectName1 = 0x1B8,	// 5.1.0.16357
+		ObjectName2 = 0xB4,		// 5.1.0.16357
+		UnitName1 = 0x970,		// 5.1.0.16357
+		UnitName2 = 0x64,		// 5.1.0.16357
+		UnitTarget = 0x4C,		// 5.1.0.16357
 	};
 
 	enum Player {
-		InGame = 0xCC9EFA,
+		PlayerName = 0xE28468,	// 5.1.0.16357
+		Target = 0xCC9F20,		// 5.1.0.16357
+		InGame = 0xCC9EFA,		// 5.1.0.16357
 	};
 }
 

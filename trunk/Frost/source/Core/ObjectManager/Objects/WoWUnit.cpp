@@ -44,6 +44,13 @@ int WoWUnit::PowerType() {
 	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_DISPLAY_POWER);
 }
 
+std::string WoWUnit::Name() {
+	unsigned int u1 = Mem->Read<unsigned int>(ObjectPointer + Offsets::UnitName1);
+	unsigned int u2 = Mem->Read<unsigned int>(u1 + Offsets::UnitName2);
+	std::string ret = Mem->ReadString(u2);
+	return ret;
+}
+
 unsigned int WoWUnit::getPtr() {
 	return ObjectPointer;
 }

@@ -22,9 +22,23 @@
 #include <Windows.h>
 #include <string>
 
-#include "CApplication.h"
+#include "../Common.h"
+#include "WindowClass.h"
+#include "MainWindow.h"
+#include "../Core/ObjectManager/CObjectManager.h"
 
-#include "../Resources/resource.h"
+#include <CommCtrl.h>
+
+#pragma comment(lib, "Comctl32.lib")
+
+// Activate vista theme for that smooth, sexy looking GUI
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
+
+#define IDC_STATIC	101
+#define IDC_TABCTRL	102
+#define IDC_OBJTAB	102
 
 #define	WM_OBJECTMANAGER_PULSE	3001
 
@@ -34,22 +48,17 @@ public:
 	void Shutdown();
 	void Run();
 
-	LRESULT CALLBACK msgRouter(HWND, UINT, WPARAM, LPARAM);
-
 private:
 	void InitializeWindows();
 	void ShutdownWindows();
 
 	bool done;
 
-	LPCSTR m_className;
-	HINSTANCE m_hInstance;
-	HWND m_hwnd;
+	WindowClass* wndClass;
+	MainWindow* wnd;
 
-	CApplication* m_Application;
+	CObjectManager* ObjectManager;
 };
-
-static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 static CSystem* ApplicationHandle = 0;
 

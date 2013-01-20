@@ -20,6 +20,14 @@ WoWLocalPlayer::WoWLocalPlayer(unsigned int objPtr) : WoWPlayer(objPtr) {
 	ObjectPointer = objPtr;
 }
 
+unsigned int WoWLocalPlayer::TargetGuid() {
+	return Mem->Read<unsigned int>(Offsets::Target);
+}
+
+std::string WoWLocalPlayer::Name() {
+	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName);
+}
+
 unsigned int WoWLocalPlayer::getPtr() {
 	return ObjectPointer;
 }

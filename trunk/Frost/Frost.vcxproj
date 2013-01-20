@@ -71,8 +71,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\Application\CApplication.cpp" />
+    <ClCompile Include="source\Application\AbstractWindow.cpp" />
     <ClCompile Include="source\Application\CSystem.cpp" />
+    <ClCompile Include="source\Application\MainWindow.cpp" />
+    <ClCompile Include="source\Application\WindowClass.cpp" />
     <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Core\CMemory.cpp" />
     <ClCompile Include="source\Core\ObjectManager\CObjectManager.cpp" />
@@ -86,8 +88,10 @@
     <ClCompile Include="source\Frost.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\Application\CApplication.h" />
+    <ClInclude Include="source\Application\AbstractWindow.h" />
     <ClInclude Include="source\Application\CSystem.h" />
+    <ClInclude Include="source\Application\MainWindow.h" />
+    <ClInclude Include="source\Application\WindowClass.h" />
     <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Core\CMemory.h" />
     <ClInclude Include="source\Core\ObjectManager\CObjectManager.h" />
@@ -109,4 +113,9 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties RESOURCE_FILE="source\Resources\Frost.rc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

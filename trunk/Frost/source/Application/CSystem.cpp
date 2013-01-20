@@ -19,21 +19,28 @@
 bool CSystem::Initialize() {
 	InitializeWindows();
 
-	m_Application = new CApplication;
-	if(!m_Application)
+	Mem = new CMemory;
+	if(!Mem || !Mem->Initialize())
 		return false;
 
-	if(!m_Application->Initialize())
+	ObjectManager = new CObjectManager;
+	if(!ObjectManager || !ObjectManager->Initialize())
 		return false;
+
+	ObjectManager->Pulse(); // Force pulse to get local player
 
 	return true;
 }
 
 void CSystem::Shutdown() {
-	if(m_Application) {
-		m_Application->Shutdown();
-		delete m_Application;
-		m_Application = 0;
+	if(Mem) {
+		delete Mem;
+		Mem = 0;
+	}
+
+	if(ObjectManager) {
+		delete ObjectManager;
+		ObjectManager = 0;
 	}
 
 	ShutdownWindows();
@@ -57,76 +64,29 @@ void CSystem::Run() {
 	return;
 }
 
-LRESULT CALLBACK CSystem::msgRouter(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	switch(msg) {
-		case WM_INITDIALOG:
-			SetTimer(hWnd, WM_OBJECTMANAGER_PULSE, 1000, NULL);
-			break;
-		case WM_TIMER:
-			switch(wParam) {
-				case WM_OBJECTMANAGER_PULSE:
-					{
-						m_Application->ObjectManager->Pulse();
-						
-						char level[64] = {0};
-
-						sprintf_s(level, "%d", m_Application->ObjectManager->GetLocalPlayer()->Level());
-						
-						SetWindowText(GetDlgItem(m_hwnd, IDC_PLAYERLEVEL), level);
-						
-						char health[64] = {0};
-
-						sprintf_s(health, "%d / %d (%d%%)", m_Application->ObjectManager->GetLocalPlayer()->Health(),
-							m_Application->ObjectManager->GetLocalPlayer()->MaxHealth(),
-							(m_Application->ObjectManager->GetLocalPlayer()->Health() / m_Application->ObjectManager->GetLocalPlayer()->MaxHealth()) * 100);
-						
-						SetWindowText(GetDlgItem(m_hwnd, IDC_PLAYERHEALTH), health);
-
-						char power[64] = {0};
-
-						sprintf_s(power, "%d / %d (%d%%)", m_Application->ObjectManager->GetLocalPlayer()->Power(),
-							m_Application->ObjectManager->GetLocalPlayer()->MaxPower(),
-							(m_Application->ObjectManager->GetLocalPlayer()->Power() / m_Application->ObjectManager->GetLocalPlayer()->MaxPower()) * 100);
-
-						SetWindowText(GetDlgItem(m_hwnd, IDC_PLAYERPOWER), power);
-					}
-					break;
-			}
-			break;
-		case WM_DESTROY: case WM_QUIT: case WM_CLOSE:
-			KillTimer(hWnd, WM_OBJECTMANAGER_PULSE);
-			Shutdown();
-			break;
-		default:
-			return DefWindowProc(hWnd, msg, wParam, lParam);
-	}
-
-	return 0;
-}
-
 void CSystem::InitializeWindows() {
-	ApplicationHandle = this;
+	wndClass = new WindowClass(GetModuleHandle(NULL), "FrostWndClass");
+	wndClass->Register();
 
-	m_hInstance = GetModuleHandle(NULL);
-
-	m_hwnd = CreateDialog(m_hInstance, (LPCSTR)IDD_FROST, NULL, (DLGPROC)WndProc);
-
-	ShowWindow(m_hwnd, SW_SHOW);
+	wnd = new MainWindow("Frost - Simple World of Warcraft Bot", wndClass->className());
+	wnd->Create();
+	wnd->Show();
 
 	return;
 }
 
 void CSystem::ShutdownWindows() {
-	DestroyWindow(m_hwnd);
-	m_hwnd = 0;
+	if(wndClass) {
+		delete wndClass;
+		wndClass = 0;
+	}
 
-	m_hInstance = NULL;
+	if(wnd) {
+		delete wnd;
+		wnd = 0;
+	}
 
 	ApplicationHandle = NULL;
 
 	return;
-}
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
-	return ApplicationHandle->msgRouter(hWnd, msg, wParam, lParam);
 }
