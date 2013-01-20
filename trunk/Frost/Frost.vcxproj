@@ -1,0 +1,112 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{9157ECC6-67E3-4FD6-B0D8-5FD940B7B396}</ProjectGuid>
+    <RootNamespace>Frost</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>bin\x86\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IntDir>obj\x86\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>bin\x86\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IntDir>obj\x86\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Application\CApplication.cpp" />
+    <ClCompile Include="source\Application\CSystem.cpp" />
+    <ClCompile Include="source\Common.cpp" />
+    <ClCompile Include="source\Core\CMemory.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\CObjectManager.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWContainer.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWGameObject.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWItem.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWLocalPlayer.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWObject.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWPlayer.cpp" />
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWUnit.cpp" />
+    <ClCompile Include="source\Frost.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Application\CApplication.h" />
+    <ClInclude Include="source\Application\CSystem.h" />
+    <ClInclude Include="source\Common.h" />
+    <ClInclude Include="source\Core\CMemory.h" />
+    <ClInclude Include="source\Core\ObjectManager\CObjectManager.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWContainer.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWGameObject.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWItem.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWLocalPlayer.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWObject.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWPlayer.h" />
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWUnit.h" />
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Constants.h" />
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Descriptors.h" />
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Offsets.h" />
+    <ClInclude Include="source\Resources\resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="source\Resources\Frost.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
