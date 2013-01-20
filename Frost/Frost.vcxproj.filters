@@ -1,0 +1,113 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{40491cf7-7e42-489b-947e-c83ba30adc2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Application">
+      <UniqueIdentifier>{b6891bd9-755f-43cb-bd82-4eaddb326e95}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ObjectManager">
+      <UniqueIdentifier>{f35575fe-44b8-4462-937b-ab57d2f5b631}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ObjectManager\Objects">
+      <UniqueIdentifier>{3b1cfcae-000f-45ad-a300-106f1fe4872f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\ObjectManager\Offsets">
+      <UniqueIdentifier>{65f88359-ebb3-48de-98be-81eb1469c786}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{e1e66870-5a9d-4a67-af60-d3db96356824}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\Application\CSystem.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\CApplication.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Frost.cpp" />
+    <ClCompile Include="source\Core\CMemory.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\CObjectManager.cpp">
+      <Filter>Core\ObjectManager</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWContainer.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWGameObject.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWItem.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWLocalPlayer.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWObject.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWPlayer.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Core\ObjectManager\Objects\WoWUnit.cpp">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Common.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\Application\CSystem.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\CApplication.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\CMemory.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\CObjectManager.h">
+      <Filter>Core\ObjectManager</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWContainer.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWGameObject.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWItem.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWLocalPlayer.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWObject.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWPlayer.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Objects\WoWUnit.h">
+      <Filter>Core\ObjectManager\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Constants.h">
+      <Filter>Core\ObjectManager\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Descriptors.h">
+      <Filter>Core\ObjectManager\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\ObjectManager\Offsets\Offsets.h">
+      <Filter>Core\ObjectManager\Offsets</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Common.h" />
+    <ClInclude Include="source\Resources\resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="source\Resources\Frost.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
