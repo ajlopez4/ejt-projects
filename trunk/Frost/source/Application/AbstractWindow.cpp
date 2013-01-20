@@ -17,6 +17,11 @@
 #include "AbstractWindow.h"
 
 bool AbstractWindow::Create() {
+	INITCOMMONCONTROLSEX icc;
+	icc.dwICC = ICC_STANDARD_CLASSES;
+	icc.dwSize = sizeof(INITCOMMONCONTROLSEX);
+	InitCommonControlsEx(&icc);
+
 	_hwnd = CreateWindowEx(
 		_styleEx, _className, _windowName, _style,
 		_x, _y, _width, _height,
@@ -36,6 +41,6 @@ LRESULT CALLBACK AbstractWindow::msgRouter(HWND hwnd, UINT msg, WPARAM wParam, L
 	wnd = (AbstractWindow*)GetWindowLong(hwnd, GWL_USERDATA);
 
 	if(wnd)
-		wnd->wndProc(hwnd, msg, wParam, lParam);
+		return wnd->wndProc(hwnd, msg, wParam, lParam);
 	return DefWindowProc(hwnd, msg, wParam, lParam);
 }

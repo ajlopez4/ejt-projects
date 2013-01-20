@@ -18,6 +18,15 @@
 #define _ABSTRACTWINDOW_H_
 
 #include <Windows.h>
+#include <list>
+#include <CommCtrl.h>
+
+#pragma comment(lib, "Comctl32.lib")
+
+// Activate vista theme for that smooth, sexy looking GUI
+#pragma comment(linker,"\"/manifestdependency:type='win32' \
+name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
+processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
 
 class AbstractWindow {
 protected:
