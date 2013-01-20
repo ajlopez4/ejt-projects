@@ -71,7 +71,6 @@ void CSystem::InitializeWindows() {
 	wnd = new MainWindow("Frost - Simple World of Warcraft Bot", wndClass->className());
 	wnd->Create();
 	wnd->Show();
-	wnd->CreateRest();
 
 	return;
 }

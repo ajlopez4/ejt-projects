@@ -28,6 +28,10 @@ std::string WoWLocalPlayer::Name() {
 	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName);
 }
 
+bool WoWLocalPlayer::InGame() {
+	return Mem->Read<bool>(Mem->dwBaseAddress + Offsets::InGame);
+}
+
 unsigned int WoWLocalPlayer::getPtr() {
 	return ObjectPointer;
 }

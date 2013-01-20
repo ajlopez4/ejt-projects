@@ -27,6 +27,8 @@ public:
 
 	std::string Name();
 
+	bool InGame();
+
 	unsigned int getPtr();
 
 private:
