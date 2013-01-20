@@ -14,20 +14,28 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _CAPPLICATION_H_
-#define _CAPPLICATION_H_
+#include "AbstractWindow.h"
+#include "WindowClass.h"
 
-#include "../Common.h"
+WindowClass::WindowClass(HINSTANCE hInst, const char* className) {
+	hInstance = hInst;
+	lpfnWndProc = AbstractWindow::msgRouter;
+	lpszClassName = className;
+	lpszMenuName = 0;
+	cbSize = sizeof(WNDCLASSEX);
+	cbClsExtra = 0;
+	cbWndExtra = 0;
+	style = 0;
+	hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	hIconSm = LoadIcon(NULL, IDI_APPLICATION);
+	hCursor = LoadCursor(NULL, IDC_ARROW);
+	hbrBackground = (HBRUSH)COLOR_WINDOW;
+}
 
-#include "../Core/ObjectManager/CObjectManager.h"
-
-class CApplication {
-public:
-	bool Initialize();
-	void Shutdown();
-
-	CObjectManager* ObjectManager;
-private:
-};
-
-#endif
+bool WindowClass::Register() {
+	if(RegisterClassEx(this))
+		return true;
+	else {
+		return false;
+	}
+}

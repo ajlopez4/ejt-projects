@@ -14,23 +14,32 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _WOWLOCALPLAYER_H_
-#define _WOWLOCALPLAYER_H_
+#include "MainWindow.h"
 
-#include "WoWPlayer.h"
+MainWindow::MainWindow(const char* windowName, const char* className) : AbstractWindow() {
+	_windowName = windowName;
+	_className = className;
+	_hInstance = GetModuleHandle(NULL);
+	_style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	_x = _y = CW_USEDEFAULT;
+	_height = _width = CW_USEDEFAULT;
+	_styleEx = 0;
+	_hwndParent = 0;
+	_hMenu = 0;
+}
 
-class WoWLocalPlayer : public WoWPlayer {
-public:
-	WoWLocalPlayer(unsigned int objPtr);
+LRESULT CALLBACK MainWindow::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch(msg) {
+		case WM_CREATE:
+			break;
+		case WM_SIZE:
+			break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+		default:
+			return DefWindowProc(hwnd, msg, wParam, lParam);
+	}
 
-	unsigned int TargetGuid();
-
-	std::string Name();
-
-	unsigned int getPtr();
-
-private:
-	unsigned int ObjectPointer;
-};
-
-#endif
+	return 0;
+}

@@ -24,9 +24,6 @@
     <ClCompile Include="source\Application\CSystem.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="source\Application\CApplication.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="source\Frost.cpp" />
     <ClCompile Include="source\Core\CMemory.cpp">
       <Filter>Core</Filter>
@@ -56,12 +53,18 @@
       <Filter>Core\ObjectManager\Objects</Filter>
     </ClCompile>
     <ClCompile Include="source\Common.cpp" />
+    <ClCompile Include="source\Application\AbstractWindow.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\MainWindow.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\WindowClass.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application\CSystem.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Application\CApplication.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="source\Core\CMemory.h">
@@ -103,6 +106,15 @@
     <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Resources\resource.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\AbstractWindow.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\MainWindow.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\WindowClass.h">
+      <Filter>Application</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

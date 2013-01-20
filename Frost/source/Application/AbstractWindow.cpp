@@ -14,23 +14,28 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _WOWLOCALPLAYER_H_
-#define _WOWLOCALPLAYER_H_
+#include "AbstractWindow.h"
 
-#include "WoWPlayer.h"
+bool AbstractWindow::Create() {
+	_hwnd = CreateWindowEx(
+		_styleEx, _className, _windowName, _style,
+		_x, _y, _width, _height,
+		_hwndParent, _hMenu, _hInstance, this);
 
-class WoWLocalPlayer : public WoWPlayer {
-public:
-	WoWLocalPlayer(unsigned int objPtr);
+	if(!_hwnd)
+		return false;
+	return true;
+}
 
-	unsigned int TargetGuid();
+LRESULT CALLBACK AbstractWindow::msgRouter(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	AbstractWindow *wnd = 0;
+	
+	if(msg == WM_NCCREATE)
+		SetWindowLong(hwnd, GWL_USERDATA, long((LPCREATESTRUCT(lParam))->lpCreateParams));
 
-	std::string Name();
+	wnd = (AbstractWindow*)GetWindowLong(hwnd, GWL_USERDATA);
 
-	unsigned int getPtr();
-
-private:
-	unsigned int ObjectPointer;
-};
-
-#endif
+	if(wnd)
+		wnd->wndProc(hwnd, msg, wParam, lParam);
+	return DefWindowProc(hwnd, msg, wParam, lParam);
+}
