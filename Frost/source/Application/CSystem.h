@@ -23,22 +23,10 @@
 #include <string>
 
 #include "../Common.h"
-#include "WindowClass.h"
-#include "MainWindow.h"
 #include "../Core/ObjectManager/CObjectManager.h"
 
-#include <CommCtrl.h>
-
-#pragma comment(lib, "Comctl32.lib")
-
-// Activate vista theme for that smooth, sexy looking GUI
-#pragma comment(linker,"\"/manifestdependency:type='win32' \
-name='Microsoft.Windows.Common-Controls' version='6.0.0.0' \
-processorArchitecture='*' publicKeyToken='6595b64144ccf1df' language='*'\"")
-
-#define IDC_STATIC	101
-#define IDC_TABCTRL	102
-#define IDC_OBJTAB	102
+#include "WindowClass.h"
+#include "MainWindow.h"
 
 #define	WM_OBJECTMANAGER_PULSE	3001
 

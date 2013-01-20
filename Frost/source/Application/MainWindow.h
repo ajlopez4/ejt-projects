@@ -19,6 +19,8 @@
 
 #include "AbstractWindow.h"
 
+#include <list>
+
 class MainWindow : public AbstractWindow {
 public:
 	MainWindow(const char* windowName, const char* className);
@@ -26,6 +28,12 @@ public:
 	virtual LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
 	void Show() { ShowWindow(_hwnd, SW_SHOW); UpdateWindow(_hwnd); }
+
+	bool CreateRest();
+	void AddList(HWND);
+public:
+	HWND hwndTab, hwndTabObjects;
+	HWND hwndLWContainers, hwndLWGameObjects, hwndLWItems, hwndLWPlayers, hwndLWUnits;
 };
 
 #endif
