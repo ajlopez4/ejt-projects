@@ -14,24 +14,39 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _MAINWINDOW_H_
-#define _MAINWINDOW_H_
+#ifndef _CTABCONTROL_H_
+#define _CTABCONTROL_H_
 
-#include "AbstractWindow.h"
-#include "CTabControl.h"
-
+#include <Windows.h>
+#include <CommCtrl.h>
 #include <list>
 
-class MainWindow : public AbstractWindow {
+using namespace std;
+
+class CTabControl {
 public:
-	MainWindow(const char* windowName, const char* className);
+	bool Create(HWND);
+	bool AddTab(LPSTR);
+	void RemoveTab(LPSTR);
 
-	virtual LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
+	// Adds a control to the tab
+	void AddControl(LPSTR, HWND);
 
-	void Show() { ShowWindow(_hwnd, SW_SHOW); UpdateWindow(_hwnd); }
+	void SetSize(RECT);
+	void SwitchTab(LPSTR, int);
 
-public:
-	CTabControl* MainTab;
+	HWND Handle() { return hwnd; }
+
+private:
+	HWND hwnd;
+	
+	struct TabStruct {
+		int pos;
+		LPSTR text;
+		list<HWND> children;
+	};
+
+	list<TabStruct*> TabList;
 };
 
 #endif
