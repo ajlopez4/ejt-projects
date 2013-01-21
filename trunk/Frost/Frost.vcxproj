@@ -72,6 +72,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\AbstractWindow.cpp" />
+    <ClCompile Include="source\Application\CListControl.cpp" />
     <ClCompile Include="source\Application\CSystem.cpp" />
     <ClCompile Include="source\Application\CTabControl.cpp" />
     <ClCompile Include="source\Application\MainWindow.cpp" />
@@ -90,6 +91,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application\AbstractWindow.h" />
+    <ClInclude Include="source\Application\CListControl.h" />
     <ClInclude Include="source\Application\CSystem.h" />
     <ClInclude Include="source\Application\CTabControl.h" />
     <ClInclude Include="source\Application\MainWindow.h" />

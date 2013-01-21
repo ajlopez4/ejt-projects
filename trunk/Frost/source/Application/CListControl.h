@@ -14,24 +14,34 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWLocalPlayer.h"
+#ifndef _CLISTCONTROL_H_
+#define _CLISTCONTROL_H_
 
-WoWLocalPlayer::WoWLocalPlayer(unsigned int objPtr) : WoWPlayer(objPtr) {
-	ObjectPointer = objPtr;
-}
+#include <Windows.h>
+#include <CommCtrl.h>
+#include <list>
 
-unsigned int WoWLocalPlayer::TargetGuid() {
-	return Mem->Read<unsigned int>(Offsets::Target);
-}
+using namespace std;
 
-string WoWLocalPlayer::Name() {
-	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName);
-}
+class CListControl {
+public:
+	bool Create(HWND);
+	bool AddColumn(LPSTR, int);
+	bool AddRow(LPSTR[]);
+	void Clear();
 
-bool WoWLocalPlayer::InGame() {
-	return Mem->Read<bool>(Mem->dwBaseAddress + Offsets::InGame);
-}
+	void SetPos(RECT);
 
-unsigned int WoWLocalPlayer::getPtr() {
-	return ObjectPointer;
-}
+	HWND Handle() { return hwnd; }
+private:
+	struct ColumnStruct {
+		int pos;
+		LPSTR text;
+	};
+
+	list<ColumnStruct*> ColumnList;
+
+	HWND hwnd;
+};
+
+#endif

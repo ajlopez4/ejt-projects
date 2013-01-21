@@ -57,6 +57,63 @@ void CSystem::Run() {
 	ZeroMemory(&msg, sizeof(MSG));
 
 	while(GetMessage(&msg, NULL, 0, 0) > 0 && !done) {
+		if(msg.message == WM_TIMER) {
+			if(msg.wParam == TIMER_PULSE && ObjectManager->GetLocalPlayer()->InGame()) {
+				ObjectManager->Pulse();
+
+				wnd->ListPlayers->Clear();
+
+				list<WoWPlayer*> playerList = ObjectManager->GetPlayerList();
+
+				for(list<WoWPlayer*>::iterator it = playerList.begin(); 
+					it != playerList.end(); it++) {
+
+					char guid[64] = {0};
+					char name[64] = {0};
+					char health[64] = {0};
+					char power[64] = {0};
+					char level[64] = {0};
+					
+					sprintf_s(guid, "%d", (*it)->Guid());
+					sprintf_s(name, "%s", (*it)->Name().c_str());
+					sprintf_s(health, "%d", (*it)->Health());
+					sprintf_s(power, "%d", (*it)->Power());
+					sprintf_s(level, "%d", (*it)->Level());
+
+					LPSTR row[] = {
+						guid, name, health, power, level
+					};
+
+					wnd->ListPlayers->AddRow(row);
+				}
+
+				wnd->ListUnits->Clear();
+
+				list<WoWUnit*> unitList = ObjectManager->GetUnitList();
+
+				for(list<WoWUnit*>::iterator it = unitList.begin(); 
+					it != unitList.end(); it++) {
+
+					char guid[64] = {0};
+					char name[64] = {0};
+					char health[64] = {0};
+					char power[64] = {0};
+					char level[64] = {0};
+					
+					sprintf_s(guid, "%d", (*it)->Guid());
+					sprintf_s(name, "%s", (*it)->Name().c_str());
+					sprintf_s(health, "%d", (*it)->Health());
+					sprintf_s(power, "%d", (*it)->Power());
+					sprintf_s(level, "%d", (*it)->Level());
+
+					LPSTR row[] = {
+						guid, name, health, power, level
+					};
+
+					wnd->ListUnits->AddRow(row);
+				}
+			}
+		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -85,8 +142,6 @@ void CSystem::ShutdownWindows() {
 		delete wnd;
 		wnd = 0;
 	}
-
-	ApplicationHandle = NULL;
 
 	return;
 }

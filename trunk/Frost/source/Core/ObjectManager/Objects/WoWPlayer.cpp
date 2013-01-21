@@ -20,6 +20,10 @@ WoWPlayer::WoWPlayer(unsigned int objPtr) : WoWUnit(objPtr) {
 	ObjectPointer = objPtr;
 }
 
+string WoWPlayer::Name() {
+	return "PlayerName";//ret;
+}
+
 unsigned int WoWPlayer::getPtr() {
 	return ObjectPointer;
 }

@@ -14,6 +14,9 @@ bool CTabControl::Create(HWND hParent) {
 		GetModuleHandle(NULL),
 		NULL);
 
+	if(!hwnd)
+		return false;
+
 	return true;
 }
 
