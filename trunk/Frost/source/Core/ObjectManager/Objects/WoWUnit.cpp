@@ -32,16 +32,29 @@ int WoWUnit::MaxHealth() {
 	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_MAXHEALTH);
 }
 
+int WoWUnit::HealthPercentage() {
+	return (100 * Health()) / MaxHealth();
+}
+
 int WoWUnit::Power() {
-	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_POWER) / 10;
+
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_POWER);
 }
 
 int WoWUnit::MaxPower() {
-	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_MAXPOWER) / 10;
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_MAXPOWER);
 }
 
-int WoWUnit::PowerType() {
-	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_DISPLAY_POWER);
+int WoWUnit::PowerPercentage() {
+	return (100 * Power()) / MaxPower();
+}
+
+LPSTR WoWUnit::PowerType() {
+	return Constants::PowerTypes[GetDescriptorField<char>(Descriptors::UNIT_FIELD_DISPLAY_POWER)];
+}
+
+bool WoWUnit::Dead() {
+	return (Health() <= 1);
 }
 
 string WoWUnit::Name() {

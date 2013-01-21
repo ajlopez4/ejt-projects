@@ -52,17 +52,14 @@ void CSystem::Shutdown() {
 		delete ObjectManager;
 		ObjectManager = 0;
 	}
-
-	done = true;
 }
 
 void CSystem::Run() {
 	MSG msg;
-	done = false;
 
 	ZeroMemory(&msg, sizeof(MSG));
 
-	while(GetMessage(&msg, NULL, 0, 0) > 0 && !done) {
+	while(GetMessage(&msg, NULL, 0, 0) > 0) {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
@@ -77,6 +74,28 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				MainTab->AddTab("General");
 				MainTab->AddTab("Object Manager");
 
+				/* GENERAL TAB */
+				TextPlayerName = new CTextControl;
+				TextPlayerName->Create(MainTab->Handle());
+				TextPlayerName->Text("Player Name");
+				MainTab->AddControl("General", TextPlayerName->Handle());
+
+				TextPlayerHealth = new CTextControl;
+				TextPlayerHealth->Create(MainTab->Handle());
+				TextPlayerHealth->Text("Player Health");
+				MainTab->AddControl("General", TextPlayerHealth->Handle());
+
+				TextPlayerPower = new CTextControl;
+				TextPlayerPower->Create(MainTab->Handle());
+				TextPlayerPower->Text("Player Power");
+				MainTab->AddControl("General", TextPlayerPower->Handle());
+
+				TextPlayerLevel = new CTextControl;
+				TextPlayerLevel->Create(MainTab->Handle());
+				TextPlayerLevel->Text("Player Level");
+				MainTab->AddControl("General", TextPlayerLevel->Handle());
+
+				/* OBJECT MANAGER TAB */
 				ObjectsTab = new CTabControl;
 				ObjectsTab->Create(MainTab->Handle());
 				ObjectsTab->AddTab("Players");
@@ -115,6 +134,8 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ObjectsTab->SwitchTab("Players", -1);
 
 				SendMessage(hwnd, WM_SIZE, 0, 0); // Force resize
+
+				SetTimer(hwnd, TIMER_UPDATE_INFO, 1000, (TIMERPROC)NULL);
 			}
 			break;
 		case WM_NOTIFY:
@@ -134,28 +155,68 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					break;
 			}
 			break;
+		case WM_TIMER:
+			switch(wParam) {
+				case TIMER_UPDATE_INFO:
+					if(ObjectManager->GetLocalPlayer()->InGame()) {
+						/* TESTING */
+						ListPlayers->Clear();
+						list<WoWPlayer*> playerList = ObjectManager->GetPlayerList();
+						for(list<WoWPlayer*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
+							char guid[64] = {0};
+							char name[64] = {0};
+							char health[64] = {0};
+							char power[64] = {0};
+							char level[64] = {0};
+							sprintf_s(guid, "0x%X", ((*it)->Guid() & 0xFFFFFFFF));
+							sprintf_s(name, "%s", (*it)->Name().c_str());
+							sprintf_s(health, "%d/%d", (*it)->Health(), (*it)->MaxHealth());
+							sprintf_s(power, "%d/%d", (*it)->Power(), (*it)->MaxPower());
+							sprintf_s(level, "%d", (*it)->Level());
+							LPSTR row[] = { guid, name, health, power, level };
+							ListPlayers->AddRow(row);
+						}
+
+						/* END OF TESTING */
+
+
+						TextPlayerName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Name().c_str());
+						TextPlayerHealth->Text("Health: %d/%d", ObjectManager->GetLocalPlayer()->Health(), ObjectManager->GetLocalPlayer()->MaxHealth());
+						TextPlayerPower->Text("%s: %d/%d", ObjectManager->GetLocalPlayer()->PowerType(), ObjectManager->GetLocalPlayer()->Power(), ObjectManager->GetLocalPlayer()->MaxPower());
+						TextPlayerLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Level());
+					}
+					break;
+			}
+			break;
 		case WM_SIZE:
 			{
-				RECT rc;
-				GetClientRect(hwnd, &rc);
+				RECT rcClient;
+				RECT rcMain;
+				GetClientRect(hwnd, &rcClient);
+				GetClientRect(MainTab->Handle(), &rcMain);
 
-				MainTab->SetSize(rc);
+				MainTab->SetSize(rcClient);
 
-				rc.top += 28;
-				rc.left += 5;
-				rc.bottom = rc.bottom - rc.top - 5;
-				rc.right = rc.right - rc.left - 5;
+				rcClient.top += 28;
+				rcClient.left += 5;
+				rcClient.bottom = rcClient.bottom - rcClient.top - 5;
+				rcClient.right = rcClient.right - rcClient.left - 5;
 
-				ObjectsTab->SetSize(rc);
+				ObjectsTab->SetSize(rcClient);
 
-				rc.left -= 4;
-				rc.top -= 4;
-				rc.bottom = rc.bottom - rc.top - 2;
-				rc.right = rc.right - rc.left - 3;
+				rcClient.left -= 4;
+				rcClient.top -= 4;
+				rcClient.bottom = rcClient.bottom - rcClient.top - 2;
+				rcClient.right = rcClient.right - rcClient.left - 3;
 				
-				ListPlayers->SetPos(rc);
-				ListUnits->SetPos(rc);
-				ListObjects->SetPos(rc);
+				ListPlayers->SetPos(rcClient);
+				ListUnits->SetPos(rcClient);
+				ListObjects->SetPos(rcClient);
+				
+				TextPlayerName->SetPos(rcMain.left + 10, rcMain.top + 35, 250, 20);
+				TextPlayerHealth->SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
+				TextPlayerPower->SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
+				TextPlayerLevel->SetPos(rcMain.left + 10, rcMain.top + 95, 250, 20);
 			}
 			break;
 		case WM_DESTROY:
