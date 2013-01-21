@@ -16,9 +16,6 @@
     <Filter Include="Core\ObjectManager\Offsets">
       <UniqueIdentifier>{65f88359-ebb3-48de-98be-81eb1469c786}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resources">
-      <UniqueIdentifier>{e1e66870-5a9d-4a67-af60-d3db96356824}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\CSystem.cpp">
@@ -56,9 +53,6 @@
     <ClCompile Include="source\Application\AbstractWindow.cpp">
       <Filter>Application</Filter>
     </ClCompile>
-    <ClCompile Include="source\Application\MainWindow.cpp">
-      <Filter>Application</Filter>
-    </ClCompile>
     <ClCompile Include="source\Application\WindowClass.cpp">
       <Filter>Application</Filter>
     </ClCompile>
@@ -66,6 +60,12 @@
       <Filter>Application</Filter>
     </ClCompile>
     <ClCompile Include="source\Application\CListControl.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\CButtonControl.cpp">
+      <Filter>Application</Filter>
+    </ClCompile>
+    <ClCompile Include="source\Application\CTextControl.cpp">
       <Filter>Application</Filter>
     </ClCompile>
   </ItemGroup>
@@ -110,13 +110,7 @@
       <Filter>Core\ObjectManager\Offsets</Filter>
     </ClInclude>
     <ClInclude Include="source\Common.h" />
-    <ClInclude Include="source\Resources\resource.h">
-      <Filter>Resources</Filter>
-    </ClInclude>
     <ClInclude Include="source\Application\AbstractWindow.h">
-      <Filter>Application</Filter>
-    </ClInclude>
-    <ClInclude Include="source\Application\MainWindow.h">
       <Filter>Application</Filter>
     </ClInclude>
     <ClInclude Include="source\Application\WindowClass.h">
@@ -128,10 +122,11 @@
     <ClInclude Include="source\Application\CListControl.h">
       <Filter>Application</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="source\Resources\Frost.rc">
-      <Filter>Resources</Filter>
-    </ResourceCompile>
+    <ClInclude Include="source\Application\CButtonControl.h">
+      <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Application\CTextControl.h">
+      <Filter>Application</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

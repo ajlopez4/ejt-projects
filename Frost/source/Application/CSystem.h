@@ -29,8 +29,12 @@
 #include "AbstractWindow.h"
 #include "CTabControl.h"
 #include "CListControl.h"
+#include "CButtonControl.h"
+#include "CTextControl.h"
 
 using namespace std;
+
+#define TIMER_UPDATE_INFO	1001
 
 class CSystem : public AbstractWindow {
 public:
@@ -39,8 +43,6 @@ public:
 	bool Initialize();
 	void Shutdown();
 	void Run();
-	
-	bool done;
 
 	virtual LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -49,9 +51,20 @@ private:
 
 	CTabControl* MainTab;
 	CTabControl* ObjectsTab;
+
 	CListControl* ListPlayers;
 	CListControl* ListUnits;
 	CListControl* ListObjects;
+	
+	CTextControl* TextPlayerName;
+	CTextControl* TextPlayerHealth;
+	CTextControl* TextPlayerPower;
+	CTextControl* TextPlayerLevel;
+	
+	CTextControl* TextTargetName;
+	CTextControl* TextTargetHealth;
+	CTextControl* TextTargetPower;
+	CTextControl* TextTargetLevel;
 
 	CObjectManager* ObjectManager;
 };

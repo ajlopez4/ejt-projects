@@ -21,7 +21,29 @@ WoWPlayer::WoWPlayer(unsigned int objPtr) : WoWUnit(objPtr) {
 }
 
 string WoWPlayer::Name() {
-	return "PlayerName";//ret;
+	unsigned long mask, base_, offset, current, myGUID, currentGUID;
+
+	mask = Mem->Read<unsigned int>(Mem->dwBaseAddress + Offsets::nameStorePtr + Offsets::nameMaskOffset);
+	base_ = Mem->Read<unsigned int>(Mem->dwBaseAddress + Offsets::nameStorePtr + Offsets::nameBaseOffset);
+
+	myGUID =  this->Guid() & 0xFFFFFFFF;
+	offset = 12 * (mask & myGUID);
+
+	current = Mem->Read<unsigned int>((unsigned int)(base_ + offset + 8));
+	offset = Mem->Read<unsigned int>((unsigned int)(base_ + offset));
+	if((current & 0x1) == 0x1)
+		return "";
+
+	currentGUID = Mem->Read<unsigned int>((unsigned int)current);
+
+	while(currentGUID != myGUID) {
+		current = Mem->Read<unsigned int>((unsigned int)(current + offset + 4));
+		if((current & 0x1) == 0x1)
+			return "";
+		currentGUID = Mem->Read<unsigned int>((unsigned int)(current));
+	}
+
+	return Mem->ReadString((unsigned int)(current + Offsets::nameStringOffset));
 }
 
 unsigned int WoWPlayer::getPtr() {

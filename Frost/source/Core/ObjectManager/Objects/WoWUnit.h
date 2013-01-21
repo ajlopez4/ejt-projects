@@ -24,11 +24,16 @@ public:
 	WoWUnit(unsigned int objPtr);
 
 	int Level();
+
 	int Health();
 	int MaxHealth();
+	int HealthPercentage();
 	int Power();
 	int MaxPower();
-	int PowerType();
+	int PowerPercentage();
+	LPSTR PowerType();
+
+	bool Dead();
 
 	virtual string Name();
 

@@ -21,8 +21,10 @@
 // From Ownedcore
 // http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/257771-wow-constant-data-enums-structs-etc.html
 */
-	
+
 namespace Constants {
+	static const LPSTR PowerTypes[] = { "Mana", "Rage", "Focus", "Energy", "Happiness", "Runic Power", "Runes", "Health", "unk" };
+
 	namespace Shapeshift {
 		enum Form {
 			Normal = 0,

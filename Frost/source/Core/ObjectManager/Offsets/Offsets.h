@@ -36,6 +36,13 @@ namespace Offsets {
 		Target = 0xCC9F20,		// 5.1.0.16357
 		InGame = 0xCC9EFA,		// 5.1.0.16357
 	};
+
+    enum PlayerNameStore {
+        nameStorePtr = 0xBF8508 + 0x8,	// 5.1.0.16357
+        nameMaskOffset = 0x24,			// 5.1.0.16357
+        nameBaseOffset = 0x01C,			// 5.1.0.16357
+        nameStringOffset = 0x021,		// 5.1.0.16357
+    };
 }
 
 #endif

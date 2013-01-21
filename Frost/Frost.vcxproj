@@ -72,10 +72,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="source\Application\AbstractWindow.cpp" />
+    <ClCompile Include="source\Application\CButtonControl.cpp" />
     <ClCompile Include="source\Application\CListControl.cpp" />
     <ClCompile Include="source\Application\CSystem.cpp" />
     <ClCompile Include="source\Application\CTabControl.cpp" />
-    <ClCompile Include="source\Application\MainWindow.cpp" />
+    <ClCompile Include="source\Application\CTextControl.cpp" />
     <ClCompile Include="source\Application\WindowClass.cpp" />
     <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Core\CMemory.cpp" />
@@ -91,10 +92,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application\AbstractWindow.h" />
+    <ClInclude Include="source\Application\CButtonControl.h" />
     <ClInclude Include="source\Application\CListControl.h" />
     <ClInclude Include="source\Application\CSystem.h" />
     <ClInclude Include="source\Application\CTabControl.h" />
-    <ClInclude Include="source\Application\MainWindow.h" />
+    <ClInclude Include="source\Application\CTextControl.h" />
     <ClInclude Include="source\Application\WindowClass.h" />
     <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Core\CMemory.h" />
@@ -109,10 +111,6 @@
     <ClInclude Include="source\Core\ObjectManager\Offsets\Constants.h" />
     <ClInclude Include="source\Core\ObjectManager\Offsets\Descriptors.h" />
     <ClInclude Include="source\Core\ObjectManager\Offsets\Offsets.h" />
-    <ClInclude Include="source\Resources\resource.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="source\Resources\Frost.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
