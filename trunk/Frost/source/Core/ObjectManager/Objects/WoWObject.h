@@ -17,11 +17,11 @@
 #ifndef _WOWOBJECT_H_
 #define _WOWOBJECT_H_
 
-#include "../../../Common.h"
+#include <CMemory.h>
 
-#include "../Offsets/Constants.h"
-#include "../Offsets/Descriptors.h"
-#include "../Offsets/Offsets.h"
+#include <Offsets\Constants.h>
+#include <Offsets\Descriptors.h>
+#include <Offsets\Offsets.h>
 
 using namespace std;
 
@@ -40,7 +40,7 @@ public:
 		return (T)Mem->Read<T>(descPtr + field);
 	};
 
-	unsigned int getPtr();
+	bool IsValid();
 
 private:
 	unsigned int ObjectPointer;

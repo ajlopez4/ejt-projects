@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWContainer.h"
+#include <Objects\WoWContainer.h>
 
 WoWContainer::WoWContainer(unsigned int objPtr) : WoWObject(objPtr) {
 	ObjectPointer = objPtr;
@@ -26,8 +26,4 @@ int WoWContainer::Slots() {
 
 int WoWContainer::NumSlots() {
 	return GetDescriptorField<int>(Descriptors::CONTAINER_FIELD_NUM_SLOTS);
-}
-
-unsigned int WoWContainer::getPtr() {
-	return ObjectPointer;
 }

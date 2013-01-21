@@ -17,7 +17,7 @@
 #ifndef _WOWUNIT_H_
 #define _WOWUNIT_H_
 
-#include "WoWObject.h"
+#include <Objects\WoWObject.h>
 
 class WoWUnit : public WoWObject {
 public:
@@ -37,7 +37,8 @@ public:
 
 	virtual string Name();
 
-	unsigned int getPtr();
+	WoWUnit Target();
+	unsigned long TargetGuid();
 
 private:
 	unsigned int ObjectPointer;

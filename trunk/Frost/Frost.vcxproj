@@ -41,12 +41,14 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IntDir>obj\x86\$(Configuration)\</IntDir>
+    <IncludePath>$(MSBuildProjectDirectory)\source;$(MSBuildProjectDirectory)\source\Core;$(MSBuildProjectDirectory)\source\Core\ObjectManager;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>bin\x86\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <IntDir>obj\x86\$(Configuration)\</IntDir>
+    <IncludePath>$(MSBuildProjectDirectory)\source;$(MSBuildProjectDirectory)\source\Core;$(MSBuildProjectDirectory)\source\Core\ObjectManager;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -78,7 +80,6 @@
     <ClCompile Include="source\Application\CTabControl.cpp" />
     <ClCompile Include="source\Application\CTextControl.cpp" />
     <ClCompile Include="source\Application\WindowClass.cpp" />
-    <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Core\CMemory.cpp" />
     <ClCompile Include="source\Core\ObjectManager\CObjectManager.cpp" />
     <ClCompile Include="source\Core\ObjectManager\Objects\WoWContainer.cpp" />
@@ -98,7 +99,6 @@
     <ClInclude Include="source\Application\CTabControl.h" />
     <ClInclude Include="source\Application\CTextControl.h" />
     <ClInclude Include="source\Application\WindowClass.h" />
-    <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Core\CMemory.h" />
     <ClInclude Include="source\Core\ObjectManager\CObjectManager.h" />
     <ClInclude Include="source\Core\ObjectManager\Objects\WoWContainer.h" />

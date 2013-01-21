@@ -17,7 +17,7 @@
 #ifndef _WOWCONTAINER_H_
 #define _WOWCONTAINER_H_
 
-#include "WoWObject.h"
+#include <Objects\WoWObject.h>
 
 class WoWContainer : public WoWObject {
 public:
@@ -25,8 +25,6 @@ public:
 
 	int Slots();
 	int NumSlots();
-
-	unsigned int getPtr();
 
 private:
 	unsigned int ObjectPointer;

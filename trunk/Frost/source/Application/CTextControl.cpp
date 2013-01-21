@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CTextControl.h"
+#include <Application\CTextControl.h>
 
 bool CTextControl::Create(HWND hParent) {
 	hwnd = CreateWindow(
@@ -37,14 +37,12 @@ bool CTextControl::Create(HWND hParent) {
 }
 
 void CTextControl::Text(const char* format, ...) {
-	char buf[256];
+	char buf[256] = {0};
 	va_list args;
 	va_start(args, format);
 	vsprintf_s(buf, format, args);
-	perror(buf);
-	va_end(args);
-
 	SetWindowText(hwnd, buf);
+	va_end(args);
 }
 
 void CTextControl::SetPos(int x, int y, int width, int height) {

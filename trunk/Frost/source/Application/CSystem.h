@@ -23,14 +23,14 @@
 #include <string>
 #include <list>
 
-#include "../Common.h"
-#include "../Core/ObjectManager/CObjectManager.h"
+#include <CMemory.h>
+#include <ObjectManager\CObjectManager.h>
 
-#include "AbstractWindow.h"
-#include "CTabControl.h"
-#include "CListControl.h"
-#include "CButtonControl.h"
-#include "CTextControl.h"
+#include <Application\AbstractWindow.h>
+#include <Application\CTabControl.h>
+#include <Application\CListControl.h>
+#include <Application\CButtonControl.h>
+#include <Application\CTextControl.h>
 
 using namespace std;
 
@@ -65,8 +65,6 @@ private:
 	CTextControl* TextTargetHealth;
 	CTextControl* TextTargetPower;
 	CTextControl* TextTargetLevel;
-
-	CObjectManager* ObjectManager;
 };
 
 #endif

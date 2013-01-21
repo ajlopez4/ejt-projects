@@ -14,7 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWObject.h"
+#include <Objects\WoWObject.h>
+#include <CObjectManager.h>
 
 WoWObject::WoWObject(unsigned int objPtr) {
 	ObjectPointer = objPtr;
@@ -32,6 +33,6 @@ unsigned long WoWObject::Guid() {
 	return GetDescriptorField<unsigned long>(Descriptors::OBJECT_FIELD_GUID);
 }
 
-unsigned int WoWObject::getPtr() {
-	return ObjectPointer;
+bool WoWObject::IsValid() {
+	return (ObjectPointer != 0);
 }

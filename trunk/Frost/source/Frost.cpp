@@ -16,8 +16,8 @@
 
 #include <Windows.h>
 
-#include "Application\WindowClass.h"
-#include "Application\CSystem.h"
+#include <Application\WindowClass.h>
+#include <Application\CSystem.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
 	WindowClass* wndClass;

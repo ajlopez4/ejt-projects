@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CButtonControl.h"
+#include <Application\CButtonControl.h>
 
 bool CButtonControl::Create(HWND hParent) {
 	hwnd = CreateWindow(

@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWPlayer.h"
+#include <Objects\WoWPlayer.h>
 
 WoWPlayer::WoWPlayer(unsigned int objPtr) : WoWUnit(objPtr) {
 	ObjectPointer = objPtr;
@@ -43,9 +43,5 @@ string WoWPlayer::Name() {
 		currentGUID = Mem->Read<unsigned int>((unsigned int)(current));
 	}
 
-	return Mem->ReadString((unsigned int)(current + Offsets::nameStringOffset));
-}
-
-unsigned int WoWPlayer::getPtr() {
-	return ObjectPointer;
+	return Mem->ReadString((unsigned int)(current + Offsets::nameStringOffset), 32);
 }

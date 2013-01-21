@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWLocalPlayer.h"
+#include <Objects\WoWLocalPlayer.h>
 
 WoWLocalPlayer::WoWLocalPlayer(unsigned int objPtr) : WoWPlayer(objPtr) {
 	ObjectPointer = objPtr;
@@ -25,13 +25,9 @@ unsigned int WoWLocalPlayer::TargetGuid() {
 }
 
 string WoWLocalPlayer::Name() {
-	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName);
+	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName, 32);
 }
 
 bool WoWLocalPlayer::InGame() {
 	return Mem->Read<bool>(Mem->dwBaseAddress + Offsets::InGame);
-}
-
-unsigned int WoWLocalPlayer::getPtr() {
-	return ObjectPointer;
 }

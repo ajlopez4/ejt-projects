@@ -49,7 +49,6 @@
     <ClCompile Include="source\Core\ObjectManager\Objects\WoWUnit.cpp">
       <Filter>Core\ObjectManager\Objects</Filter>
     </ClCompile>
-    <ClCompile Include="source\Common.cpp" />
     <ClCompile Include="source\Application\AbstractWindow.cpp">
       <Filter>Application</Filter>
     </ClCompile>
@@ -109,7 +108,6 @@
     <ClInclude Include="source\Core\ObjectManager\Offsets\Offsets.h">
       <Filter>Core\ObjectManager\Offsets</Filter>
     </ClInclude>
-    <ClInclude Include="source\Common.h" />
     <ClInclude Include="source\Application\AbstractWindow.h">
       <Filter>Application</Filter>
     </ClInclude>

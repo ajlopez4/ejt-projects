@@ -40,7 +40,7 @@ public:
 		return ret;
 	};
 
-	std::string ReadString(unsigned int addr);
+	std::string ReadString(unsigned int addr, int max);
 	
 	char szProcessName[100];
 	HANDLE hProcess;
@@ -49,5 +49,7 @@ public:
 
 private:
 };
+
+extern CMemory* Mem;
 
 #endif
