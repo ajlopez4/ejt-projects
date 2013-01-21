@@ -19,8 +19,11 @@
 
 #include "AbstractWindow.h"
 #include "CTabControl.h"
+#include "CListControl.h"
 
 #include <list>
+
+#define TIMER_PULSE	201
 
 class MainWindow : public AbstractWindow {
 public:
@@ -32,6 +35,10 @@ public:
 
 public:
 	CTabControl* MainTab;
+	CTabControl* ObjectsTab;
+	CListControl* ListPlayers;
+	CListControl* ListUnits;
+	CListControl* ListObjects;
 };
 
 #endif

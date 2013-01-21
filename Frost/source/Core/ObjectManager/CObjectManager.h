@@ -33,14 +33,20 @@
 
 #include <list>
 
+using namespace std;
+
 class CObjectManager {
 public:
-
 	bool Initialize();
 	void Pulse();
 
 	WoWLocalPlayer *GetLocalPlayer() { return LocalPlayer; }
-
+	
+	list<WoWContainer*> GetContainerList() { return ContainerList; }
+	list<WoWGameObject*> GetGameObjectList() { return GameObjectList; }
+	list<WoWItem*> GetItemList() { return ItemList; }
+	list<WoWPlayer*> GetPlayerList() { return PlayerList; }
+	list<WoWUnit*> GetUnitList() {  return UnitList; }
 private:
 	unsigned int objectManager;
 	unsigned long LocalPlayerGuid;
@@ -49,11 +55,13 @@ private:
 
 	WoWLocalPlayer *LocalPlayer;
 
-	std::list<WoWContainer*>	ContainerList;
-	std::list<WoWGameObject*>	GameObjectList;
-	std::list<WoWItem*>			ItemList;
-	std::list<WoWPlayer*>		PlayerList;
-	std::list<WoWUnit*>			UnitList;
+	list<WoWContainer*>		ContainerList;
+	list<WoWGameObject*>	GameObjectList;
+	list<WoWItem*>			ItemList;
+	list<WoWPlayer*>		PlayerList;
+	list<WoWUnit*>			UnitList;
+
+	bool IsUpdating;
 };
 
 #endif

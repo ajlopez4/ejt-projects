@@ -35,19 +35,19 @@ public:
 	bool Initialize();
 	void Shutdown();
 	void Run();
+	
+	bool done;
+
+	string NumberToString(int);
 
 private:
 	void InitializeWindows();
 	void ShutdownWindows();
-
-	bool done;
 
 	WindowClass* wndClass;
 	MainWindow* wnd;
 
 	CObjectManager* ObjectManager;
 };
-
-static CSystem* ApplicationHandle = 0;
 
 #endif

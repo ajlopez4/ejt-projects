@@ -25,7 +25,7 @@ public:
 
 	unsigned int TargetGuid();
 
-	std::string Name();
+	virtual string Name();
 
 	bool InGame();
 

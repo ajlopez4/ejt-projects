@@ -23,6 +23,8 @@
 #include "../Offsets/Descriptors.h"
 #include "../Offsets/Offsets.h"
 
+using namespace std;
+
 class WoWObject {
 public:
 	WoWObject(unsigned int objPtr);

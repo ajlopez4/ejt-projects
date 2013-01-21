@@ -23,6 +23,8 @@ class WoWPlayer : public WoWUnit {
 public:
 	WoWPlayer(unsigned int objPtr);
 
+	virtual string Name();
+
 	unsigned int getPtr();
 
 private:

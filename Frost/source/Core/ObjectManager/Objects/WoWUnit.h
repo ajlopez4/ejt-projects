@@ -30,7 +30,7 @@ public:
 	int MaxPower();
 	int PowerType();
 
-	std::string Name();
+	virtual string Name();
 
 	unsigned int getPtr();
 

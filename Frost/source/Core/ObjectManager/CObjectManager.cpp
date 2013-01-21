@@ -22,10 +22,13 @@ bool CObjectManager::Initialize() {
 	LocalPlayerGuid = Mem->Read<unsigned long>(objectManager + Offsets::LocalGuid);
 	LocalPlayer = NULL;
 
+	IsUpdating = false;
+
 	return true;
 }
 
 void CObjectManager::Pulse() {
+	IsUpdating = true;
 	PurgeLists();
 
 	unsigned int currObj = Mem->Read<unsigned int>(objectManager + Offsets::FirstObject);
@@ -63,6 +66,7 @@ void CObjectManager::Pulse() {
 		delete definedObj;
 		definedObj = 0;
 	}
+	IsUpdating = false;
 }
 
 void CObjectManager::PurgeLists() {
