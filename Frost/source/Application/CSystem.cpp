@@ -170,8 +170,8 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							char level[64] = {0};
 							sprintf_s(guid, "0x%X", ((*it)->Guid() & 0xFFFFFFFF));
 							sprintf_s(name, "%s", (*it)->Name().c_str());
-							sprintf_s(health, "%d/%d", (*it)->Health(), (*it)->MaxHealth());
-							sprintf_s(power, "%d/%d", (*it)->Power(), (*it)->MaxPower());
+							sprintf_s(health, "%d/%d (%d%%)", (*it)->Health(), (*it)->MaxHealth(), (*it)->HealthPercentage());
+							sprintf_s(power, "%d/%d (%d%%)", (*it)->Power(), (*it)->MaxPower(), (*it)->PowerPercentage());
 							sprintf_s(level, "%d", (*it)->Level());
 							LPSTR row[] = { guid, name, health, power, level };
 							ListPlayers->AddRow(row);
@@ -181,8 +181,13 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 
 						TextPlayerName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Name().c_str());
-						TextPlayerHealth->Text("Health: %d/%d", ObjectManager->GetLocalPlayer()->Health(), ObjectManager->GetLocalPlayer()->MaxHealth());
-						TextPlayerPower->Text("%s: %d/%d", ObjectManager->GetLocalPlayer()->PowerType(), ObjectManager->GetLocalPlayer()->Power(), ObjectManager->GetLocalPlayer()->MaxPower());
+						TextPlayerHealth->Text("Health: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Health(),
+							ObjectManager->GetLocalPlayer()->MaxHealth(),
+							ObjectManager->GetLocalPlayer()->HealthPercentage());
+						TextPlayerPower->Text("%s: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->PowerType(),
+							ObjectManager->GetLocalPlayer()->Power(),
+							ObjectManager->GetLocalPlayer()->MaxPower(),
+							ObjectManager->GetLocalPlayer()->PowerPercentage());
 						TextPlayerLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Level());
 					}
 					break;
