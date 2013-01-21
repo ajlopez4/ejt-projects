@@ -14,12 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWItem.h"
+#include <Objects\WoWItem.h>
 
 WoWItem::WoWItem(unsigned int objPtr) : WoWObject(objPtr) {
 	ObjectPointer = objPtr;
-}
-
-unsigned int WoWItem::getPtr() {
-	return ObjectPointer;
 }

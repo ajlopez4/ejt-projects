@@ -14,7 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "WoWUnit.h"
+#include <Objects\WoWUnit.h>
+#include <ObjectManager\CObjectManager.h>
 
 WoWUnit::WoWUnit(unsigned int objPtr) : WoWObject(objPtr) {
 	ObjectPointer = objPtr;
@@ -33,7 +34,7 @@ int WoWUnit::MaxHealth() {
 }
 
 int WoWUnit::HealthPercentage() {
-	return (100 * Health()) / MaxHealth();
+	if(Health() == 0) return 0; else return (100 * Health()) / MaxHealth();
 }
 
 int WoWUnit::Power() {
@@ -46,7 +47,7 @@ int WoWUnit::MaxPower() {
 }
 
 int WoWUnit::PowerPercentage() {
-	return (100 * Power()) / MaxPower();
+	if(MaxPower() == 0) return 0; else return (100 * Power()) / MaxPower();
 }
 
 LPSTR WoWUnit::PowerType() {
@@ -60,10 +61,19 @@ bool WoWUnit::Dead() {
 string WoWUnit::Name() {
 	unsigned int u1 = Mem->Read<unsigned int>(ObjectPointer + Offsets::UnitName1);
 	unsigned int u2 = Mem->Read<unsigned int>(u1 + Offsets::UnitName2);
-	string ret = Mem->ReadString(u2);
+	string ret = Mem->ReadString(u2, 32);
 	return ret;
 }
 
-unsigned int WoWUnit::getPtr() {
-	return ObjectPointer;
+WoWUnit WoWUnit::Target() {
+	for each(WoWUnit* target in ObjectManager->GetUnits()) {
+		if(target->Guid() == TargetGuid())
+			return *target;
+	}
+
+	return NULL;
+}
+
+unsigned long WoWUnit::TargetGuid() {
+	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_TARGET);
 }

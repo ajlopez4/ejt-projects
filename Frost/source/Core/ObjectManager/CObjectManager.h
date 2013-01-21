@@ -17,19 +17,13 @@
 #ifndef _COBJECTMANAGER_H_
 #define _COBJECTMANAGER_H_
 
-#include "../../Common.h"
-
-#include "Objects\WoWContainer.h"
-#include "Objects\WoWGameObject.h"
-#include "Objects\WoWItem.h"
-#include "Objects\WoWLocalPlayer.h"
-#include "Objects\WoWObject.h"
-#include "Objects\WoWPlayer.h"
-#include "Objects\WoWUnit.h"
-
-#include "Offsets/Constants.h"
-#include "Offsets/Descriptors.h"
-#include "Offsets/Offsets.h"
+#include <Objects\WoWContainer.h>
+#include <Objects\WoWGameObject.h>
+#include <Objects\WoWItem.h>
+#include <Objects\WoWLocalPlayer.h>
+#include <Objects\WoWObject.h>
+#include <Objects\WoWPlayer.h>
+#include <Objects\WoWUnit.h>
 
 #include <list>
 
@@ -42,11 +36,11 @@ public:
 
 	WoWLocalPlayer *GetLocalPlayer() { return LocalPlayer; }
 	
-	list<WoWContainer*> GetContainerList() { return ContainerList; }
-	list<WoWGameObject*> GetGameObjectList() { return GameObjectList; }
-	list<WoWItem*> GetItemList() { return ItemList; }
-	list<WoWPlayer*> GetPlayerList() { return PlayerList; }
-	list<WoWUnit*> GetUnitList() {  return UnitList; }
+	list<WoWContainer*> GetContainers() { return *(new list<WoWContainer*>(ContainerList)); }
+	list<WoWGameObject*> GetGameObjects() { return *(new list<WoWGameObject*>(GameObjectList)); }
+	list<WoWItem*> GetItems() { return *(new list<WoWItem*>(ItemList)); }
+	list<WoWPlayer*> GetPlayers() { return *(new list<WoWPlayer*>(PlayerList)); }
+	list<WoWUnit*> GetUnits() {  return *(new list<WoWUnit*>(UnitList)); }
 private:
 	unsigned int objectManager;
 	unsigned long LocalPlayerGuid;
@@ -60,8 +54,8 @@ private:
 	list<WoWItem*>			ItemList;
 	list<WoWPlayer*>		PlayerList;
 	list<WoWUnit*>			UnitList;
-
-	bool IsUpdating;
 };
+
+extern CObjectManager* ObjectManager;
 
 #endif

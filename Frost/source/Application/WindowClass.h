@@ -14,8 +14,8 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _MAINWINDOWCLASS_H_
-#define _MAINWINDOWCLASS_H_
+#ifndef _WINDOWCLASS_H_
+#define _WINDOWCLASS_H_
 
 class WindowClass : public WNDCLASSEX {
 public:

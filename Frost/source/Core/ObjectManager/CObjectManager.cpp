@@ -14,7 +14,9 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CObjectManager.h"
+#include <CObjectManager.h>
+
+CObjectManager* ObjectManager;
 
 bool CObjectManager::Initialize() {
 	objectManager = Mem->Read<unsigned int>(Mem->Read<unsigned int>(Mem->dwBaseAddress + Offsets::ObjectMgr) + Offsets::CurMgr);
@@ -22,13 +24,10 @@ bool CObjectManager::Initialize() {
 	LocalPlayerGuid = Mem->Read<unsigned long>(objectManager + Offsets::LocalGuid);
 	LocalPlayer = NULL;
 
-	IsUpdating = false;
-
 	return true;
 }
 
 void CObjectManager::Pulse() {
-	IsUpdating = true;
 	PurgeLists();
 
 	unsigned int currObj = Mem->Read<unsigned int>(objectManager + Offsets::FirstObject);
@@ -66,7 +65,6 @@ void CObjectManager::Pulse() {
 		delete definedObj;
 		definedObj = 0;
 	}
-	IsUpdating = false;
 }
 
 void CObjectManager::PurgeLists() {

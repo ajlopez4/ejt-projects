@@ -14,7 +14,9 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CMemory.h"
+#include <CMemory.h>
+
+CMemory* Mem;
 
 CMemory::CMemory() {
 	hProcess = NULL;
@@ -113,13 +115,13 @@ bool CMemory::EnablePriv() {
 	return bRet;
 }
 
-std::string CMemory::ReadString(unsigned int addr) {
+std::string CMemory::ReadString(unsigned int addr, int max) {
 	std::string retstr; // Return string
 	char ch; // buffer
 
-	while(true) { // Loop until it hits escape character
+	while(true) { // Loop until it hits escape character or max
 		ReadProcessMemory(hProcess, (LPCVOID)addr, &ch, sizeof(ch), 0); // Read memory
-		if(ch == 0) break; // If its an escape character, break
+		if(ch == 0 || (ch & 0xff) == 0xcc) break; // If its an escape character, break
 		retstr += ch; // Add it to the return string
 		addr += sizeof(ch); // Increase address
 	}

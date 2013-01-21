@@ -14,7 +14,7 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#include "CSystem.h"
+#include <Application\CSystem.h>
 
 CSystem::CSystem(const char* wndName, const char* className) : AbstractWindow() {
 	_windowName = wndName;
@@ -95,6 +95,26 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextPlayerLevel->Text("Player Level");
 				MainTab->AddControl("General", TextPlayerLevel->Handle());
 
+				TextTargetName = new CTextControl;
+				TextTargetName->Create(MainTab->Handle());
+				TextTargetName->Text("Target Name");
+				MainTab->AddControl("General", TextTargetName->Handle());
+
+				TextTargetHealth = new CTextControl;
+				TextTargetHealth->Create(MainTab->Handle());
+				TextTargetHealth->Text("Target Health");
+				MainTab->AddControl("General", TextTargetHealth->Handle());
+
+				TextTargetPower = new CTextControl;
+				TextTargetPower->Create(MainTab->Handle());
+				TextTargetPower->Text("Target Power");
+				MainTab->AddControl("General", TextTargetPower->Handle());
+
+				TextTargetLevel = new CTextControl;
+				TextTargetLevel->Create(MainTab->Handle());
+				TextTargetLevel->Text("Target Level");
+				MainTab->AddControl("General", TextTargetLevel->Handle());
+
 				/* OBJECT MANAGER TAB */
 				ObjectsTab = new CTabControl;
 				ObjectsTab->Create(MainTab->Handle());
@@ -108,8 +128,8 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ListPlayers->Create(ObjectsTab->Handle());
 				ListPlayers->AddColumn("GUID", 100);
 				ListPlayers->AddColumn("Name", 100);
-				ListPlayers->AddColumn("Health", 100);
-				ListPlayers->AddColumn("Power", 100);
+				ListPlayers->AddColumn("Health", 150);
+				ListPlayers->AddColumn("Power", 150);
 				ListPlayers->AddColumn("Level", 100);
 
 				ObjectsTab->AddControl("Players", ListPlayers->Handle());
@@ -118,8 +138,8 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ListUnits->Create(ObjectsTab->Handle());
 				ListUnits->AddColumn("GUID", 100);
 				ListUnits->AddColumn("Name", 100);
-				ListUnits->AddColumn("Health", 100);
-				ListUnits->AddColumn("Power", 100);
+				ListUnits->AddColumn("Health", 150);
+				ListUnits->AddColumn("Power", 150);
 				ListUnits->AddColumn("Level", 100);
 
 				ObjectsTab->AddControl("Units", ListUnits->Handle());
@@ -161,25 +181,52 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					if(ObjectManager->GetLocalPlayer()->InGame()) {
 						/* TESTING */
 						ListPlayers->Clear();
-						list<WoWPlayer*> playerList = ObjectManager->GetPlayerList();
-						for(list<WoWPlayer*>::iterator it = playerList.begin(); it != playerList.end(); it++) {
-							char guid[64] = {0};
-							char name[64] = {0};
-							char health[64] = {0};
-							char power[64] = {0};
-							char level[64] = {0};
-							sprintf_s(guid, "0x%X", ((*it)->Guid() & 0xFFFFFFFF));
-							sprintf_s(name, "%s", (*it)->Name().c_str());
-							sprintf_s(health, "%d/%d (%d%%)", (*it)->Health(), (*it)->MaxHealth(), (*it)->HealthPercentage());
-							sprintf_s(power, "%d/%d (%d%%)", (*it)->Power(), (*it)->MaxPower(), (*it)->PowerPercentage());
-							sprintf_s(level, "%d", (*it)->Level());
-							LPSTR row[] = { guid, name, health, power, level };
-							ListPlayers->AddRow(row);
+						for each(WoWPlayer * player in ObjectManager->GetPlayers()) {
+							if(player->Guid() != 0) {
+								char guid[64] = {0};
+								char name[64] = {0};
+								char health[64] = {0};
+								char power[64] = {0};
+								char level[64] = {0};
+								sprintf_s(guid, "0x%X", (player->Guid() & 0xFFFFFFFF));
+								sprintf_s(name, "%s", player->Name().c_str());
+								if(player->Dead()) {
+									sprintf_s(health, "Dead");
+									sprintf_s(power, "Dead");
+								} else {
+									sprintf_s(health, "%d/%d (%d%%)", player->Health(), player->MaxHealth(), player->HealthPercentage());
+									sprintf_s(power, "%d/%d (%d%%)", player->Power(), player->MaxPower(), player->PowerPercentage());
+								}
+								sprintf_s(level, "%d", player->Level());
+								LPSTR row[] = { guid, name, health, power, level };
+								ListPlayers->AddRow(row);
+							}
 						}
 
+						ListUnits->Clear();
+						for each(WoWUnit * unit in ObjectManager->GetUnits()) {
+							if(unit->Guid() != 0) {
+								char guid[64] = {0};
+								char name[64] = {0};
+								char health[64] = {0};
+								char power[64] = {0};
+								char level[64] = {0};
+								sprintf_s(guid, "0x%X", (unit->Guid() & 0xFFFFFFFF));
+								sprintf_s(name, "%s", unit->Name().c_str());
+								if(unit->Dead()) {
+									sprintf_s(health, "Dead");
+									sprintf_s(power, "Dead");
+								} else {
+									sprintf_s(health, "%d/%d (%d%%)", unit->Health(), unit->MaxHealth(), unit->HealthPercentage());
+									sprintf_s(power, "%d/%d (%d%%)", unit->Power(), unit->MaxPower(), unit->PowerPercentage());
+								}
+								sprintf_s(level, "%d", unit->Level());
+								LPSTR row[] = { guid, name, health, power, level };
+								ListUnits->AddRow(row);
+							}
+						}
 						/* END OF TESTING */
-
-
+						
 						TextPlayerName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Name().c_str());
 						TextPlayerHealth->Text("Health: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Health(),
 							ObjectManager->GetLocalPlayer()->MaxHealth(),
@@ -189,6 +236,23 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							ObjectManager->GetLocalPlayer()->MaxPower(),
 							ObjectManager->GetLocalPlayer()->PowerPercentage());
 						TextPlayerLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Level());
+
+						if(ObjectManager->GetLocalPlayer()->Target().IsValid()) {
+							TextTargetName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Target().Name().c_str());
+							TextTargetHealth->Text("Health: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Target().Health(),
+								ObjectManager->GetLocalPlayer()->Target().MaxHealth(),
+								ObjectManager->GetLocalPlayer()->Target().HealthPercentage());
+							TextTargetPower->Text("%s: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Target().PowerType(),
+								ObjectManager->GetLocalPlayer()->Target().Power(),
+								ObjectManager->GetLocalPlayer()->Target().MaxPower(),
+								ObjectManager->GetLocalPlayer()->Target().PowerPercentage());
+							TextTargetLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Target().Level());
+						} else {
+							TextTargetName->Text("N/A");
+							TextTargetHealth->Text("N/A");
+							TextTargetPower->Text("N/A");
+							TextTargetLevel->Text("N/A");
+						}
 					}
 					break;
 			}
@@ -222,6 +286,11 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextPlayerHealth->SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
 				TextPlayerPower->SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
 				TextPlayerLevel->SetPos(rcMain.left + 10, rcMain.top + 95, 250, 20);
+				
+				TextTargetName->SetPos(rcMain.left + 260, rcMain.top + 35, 250, 20);
+				TextTargetHealth->SetPos(rcMain.left + 260, rcMain.top + 55, 250, 20);
+				TextTargetPower->SetPos(rcMain.left + 260, rcMain.top + 75, 250, 20);
+				TextTargetLevel->SetPos(rcMain.left + 260, rcMain.top + 95, 250, 20);
 			}
 			break;
 		case WM_DESTROY:

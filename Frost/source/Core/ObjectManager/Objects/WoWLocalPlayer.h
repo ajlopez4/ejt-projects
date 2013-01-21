@@ -17,7 +17,7 @@
 #ifndef _WOWLOCALPLAYER_H_
 #define _WOWLOCALPLAYER_H_
 
-#include "WoWPlayer.h"
+#include <Objects\WoWPlayer.h>
 
 class WoWLocalPlayer : public WoWPlayer {
 public:
@@ -28,8 +28,6 @@ public:
 	virtual string Name();
 
 	bool InGame();
-
-	unsigned int getPtr();
 
 private:
 	unsigned int ObjectPointer;
