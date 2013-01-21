@@ -16,9 +16,19 @@
 
 #include "CSystem.h"
 
-bool CSystem::Initialize() {
-	InitializeWindows();
+CSystem::CSystem(const char* wndName, const char* className) : AbstractWindow() {
+	_windowName = wndName;
+	_className = className;
+	_hInstance = GetModuleHandle(NULL);
+	_style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
+	_x = _y = CW_USEDEFAULT;
+	_height = _width = CW_USEDEFAULT;
+	_styleEx = 0;
+	_hwndParent = 0;
+	_hMenu = 0;
+}
 
+bool CSystem::Initialize() {
 	Mem = new CMemory;
 	if(!Mem || !Mem->Initialize())
 		return false;
@@ -43,11 +53,7 @@ void CSystem::Shutdown() {
 		ObjectManager = 0;
 	}
 
-	ShutdownWindows();
-
 	done = true;
-
-	return;
 }
 
 void CSystem::Run() {
@@ -57,91 +63,107 @@ void CSystem::Run() {
 	ZeroMemory(&msg, sizeof(MSG));
 
 	while(GetMessage(&msg, NULL, 0, 0) > 0 && !done) {
-		if(msg.message == WM_TIMER) {
-			if(msg.wParam == TIMER_PULSE && ObjectManager->GetLocalPlayer()->InGame()) {
-				ObjectManager->Pulse();
-
-				wnd->ListPlayers->Clear();
-
-				list<WoWPlayer*> playerList = ObjectManager->GetPlayerList();
-
-				for(list<WoWPlayer*>::iterator it = playerList.begin(); 
-					it != playerList.end(); it++) {
-
-					char guid[64] = {0};
-					char name[64] = {0};
-					char health[64] = {0};
-					char power[64] = {0};
-					char level[64] = {0};
-					
-					sprintf_s(guid, "%d", (*it)->Guid());
-					sprintf_s(name, "%s", (*it)->Name().c_str());
-					sprintf_s(health, "%d", (*it)->Health());
-					sprintf_s(power, "%d", (*it)->Power());
-					sprintf_s(level, "%d", (*it)->Level());
-
-					LPSTR row[] = {
-						guid, name, health, power, level
-					};
-
-					wnd->ListPlayers->AddRow(row);
-				}
-
-				wnd->ListUnits->Clear();
-
-				list<WoWUnit*> unitList = ObjectManager->GetUnitList();
-
-				for(list<WoWUnit*>::iterator it = unitList.begin(); 
-					it != unitList.end(); it++) {
-
-					char guid[64] = {0};
-					char name[64] = {0};
-					char health[64] = {0};
-					char power[64] = {0};
-					char level[64] = {0};
-					
-					sprintf_s(guid, "%d", (*it)->Guid());
-					sprintf_s(name, "%s", (*it)->Name().c_str());
-					sprintf_s(health, "%d", (*it)->Health());
-					sprintf_s(power, "%d", (*it)->Power());
-					sprintf_s(level, "%d", (*it)->Level());
-
-					LPSTR row[] = {
-						guid, name, health, power, level
-					};
-
-					wnd->ListUnits->AddRow(row);
-				}
-			}
-		}
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
-
-	return;
 }
 
-void CSystem::InitializeWindows() {
-	wndClass = new WindowClass(GetModuleHandle(NULL), "FrostWndClass");
-	wndClass->Register();
+LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+	switch(msg) {
+		case WM_CREATE:
+			{
+				MainTab = new CTabControl;
+				MainTab->Create(hwnd);
+				MainTab->AddTab("General");
+				MainTab->AddTab("Object Manager");
 
-	wnd = new MainWindow("Frost - Simple World of Warcraft Bot", wndClass->className());
-	wnd->Create();
-	wnd->Show();
+				ObjectsTab = new CTabControl;
+				ObjectsTab->Create(MainTab->Handle());
+				ObjectsTab->AddTab("Players");
+				ObjectsTab->AddTab("Units");
+				ObjectsTab->AddTab("Objects");
 
-	return;
-}
+				MainTab->AddControl("Object Manager", ObjectsTab->Handle());
 
-void CSystem::ShutdownWindows() {
-	if(wndClass) {
-		delete wndClass;
-		wndClass = 0;
+				ListPlayers = new CListControl;
+				ListPlayers->Create(ObjectsTab->Handle());
+				ListPlayers->AddColumn("GUID", 100);
+				ListPlayers->AddColumn("Name", 100);
+				ListPlayers->AddColumn("Health", 100);
+				ListPlayers->AddColumn("Power", 100);
+				ListPlayers->AddColumn("Level", 100);
+
+				ObjectsTab->AddControl("Players", ListPlayers->Handle());
+
+				ListUnits = new CListControl;
+				ListUnits->Create(ObjectsTab->Handle());
+				ListUnits->AddColumn("GUID", 100);
+				ListUnits->AddColumn("Name", 100);
+				ListUnits->AddColumn("Health", 100);
+				ListUnits->AddColumn("Power", 100);
+				ListUnits->AddColumn("Level", 100);
+
+				ObjectsTab->AddControl("Units", ListUnits->Handle());
+
+				ListObjects = new CListControl;
+				ListObjects->Create(ObjectsTab->Handle());
+				ListObjects->AddColumn("GUID", 100);
+
+				ObjectsTab->AddControl("Objects", ListObjects->Handle());
+
+				MainTab->SwitchTab("General", -1);
+				ObjectsTab->SwitchTab("Players", -1);
+
+				SendMessage(hwnd, WM_SIZE, 0, 0); // Force resize
+			}
+			break;
+		case WM_NOTIFY:
+			switch(((LPNMHDR)lParam)->code) {
+				case TCN_SELCHANGING:
+					return false;
+					break;
+				case TCN_SELCHANGE:
+					{
+						int page = TabCtrl_GetCurSel(((LPNMHDR)lParam)->hwndFrom);
+						
+						if(((LPNMHDR)lParam)->hwndFrom == MainTab->Handle())
+							MainTab->SwitchTab("", page);
+						else if(((LPNMHDR)lParam)->hwndFrom == ObjectsTab->Handle())
+							ObjectsTab->SwitchTab("", page);
+					}
+					break;
+			}
+			break;
+		case WM_SIZE:
+			{
+				RECT rc;
+				GetClientRect(hwnd, &rc);
+
+				MainTab->SetSize(rc);
+
+				rc.top += 28;
+				rc.left += 5;
+				rc.bottom = rc.bottom - rc.top - 5;
+				rc.right = rc.right - rc.left - 5;
+
+				ObjectsTab->SetSize(rc);
+
+				rc.left -= 4;
+				rc.top -= 4;
+				rc.bottom = rc.bottom - rc.top - 2;
+				rc.right = rc.right - rc.left - 3;
+				
+				ListPlayers->SetPos(rc);
+				ListUnits->SetPos(rc);
+				ListObjects->SetPos(rc);
+			}
+			break;
+		case WM_DESTROY:
+			PostQuitMessage(0);
+			break;
+		default:
+			return DefWindowProc(hwnd, msg, wParam, lParam);
 	}
 
-	if(wnd) {
-		delete wnd;
-		wnd = 0;
-	}
-
-	return;
+	return 0;
 }

@@ -14,21 +14,59 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
+#include <Windows.h>
+
+#include "Application\WindowClass.h"
 #include "Application\CSystem.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
+	WindowClass* wndClass;
 	CSystem* System;
 
-	System = new CSystem;
-	if(!System)
+	wndClass = new WindowClass(GetModuleHandle(NULL), "FrostWndClass");
+
+	if(!wndClass) {
+		MessageBox(NULL, "Failed to create WindowClass class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
 		return 0;
+	}
 
-	if(System->Initialize())
+	if(!wndClass->Register()) {
+		MessageBox(NULL, "Failed to register window class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
+
+	System = new CSystem("Frost - Simple World of Warcraft Bot", wndClass->className());
+
+	if(!System) {
+		MessageBox(NULL, "Failed to create CSystem class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
+
+	if(!System->Create()) {
+		MessageBox(NULL, "System->Create() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
+
+	System->Show();
+
+
+	if(System->Initialize()) {
 		System->Run();
+	} else {
+		MessageBox(NULL, "System->Initialize() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
+		return 0;
+	}
 
-	System->Shutdown();
-	delete System;
-	System = 0;
+	if(wndClass) {
+		delete wndClass;
+		wndClass = 0;
+	}
+
+	if(System) {
+		System->Shutdown();
+		delete System;
+		System = 0;
+	}
 
 	return 0;
 }

@@ -21,31 +21,37 @@
 
 #include <Windows.h>
 #include <string>
+#include <list>
 
 #include "../Common.h"
 #include "../Core/ObjectManager/CObjectManager.h"
 
-#include "WindowClass.h"
-#include "MainWindow.h"
+#include "AbstractWindow.h"
+#include "CTabControl.h"
+#include "CListControl.h"
 
-#define	WM_OBJECTMANAGER_PULSE	3001
+using namespace std;
 
-class CSystem {
+class CSystem : public AbstractWindow {
 public:
+
+	CSystem(const char*, const char*);
 	bool Initialize();
 	void Shutdown();
 	void Run();
 	
 	bool done;
 
-	string NumberToString(int);
+	virtual LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
 
+	void Show() { ShowWindow(_hwnd, SW_SHOW); UpdateWindow(_hwnd); }
 private:
-	void InitializeWindows();
-	void ShutdownWindows();
 
-	WindowClass* wndClass;
-	MainWindow* wnd;
+	CTabControl* MainTab;
+	CTabControl* ObjectsTab;
+	CListControl* ListPlayers;
+	CListControl* ListUnits;
+	CListControl* ListObjects;
 
 	CObjectManager* ObjectManager;
 };
