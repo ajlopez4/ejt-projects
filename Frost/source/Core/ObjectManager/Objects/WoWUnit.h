@@ -22,23 +22,39 @@
 class WoWUnit : public WoWObject {
 public:
 	WoWUnit(unsigned int objPtr);
-
+	
+	virtual string Name();
+	virtual CLocation Location();
+	float Facing();
+	unsigned long CharmedBy();
+	unsigned long SummonedBy();
+	unsigned long CreatedBy();
+	bool Critter();
 	int Level();
-
+	int BaseHealth();
 	int Health();
 	int MaxHealth();
 	int HealthPercentage();
+	bool Dead();
+	int BaseMana(); // BaseMana or BasePower???
 	int Power();
 	int MaxPower();
 	int PowerPercentage();
 	LPSTR PowerType();
-
-	bool Dead();
-
-	virtual string Name();
-
 	WoWUnit Target();
+	WoWUnit Pet();
 	unsigned long TargetGuid();
+	int DisplayID();
+	int MountDisplayID();
+	bool Mounted();
+	bool Tagged();
+	bool TaggedByMe();
+	bool TaggedByOther();
+	bool CastingBar();
+	bool Casting();
+	bool ChanneledCasting();
+
+	virtual bool IsValid() { return (ObjectPointer != 0); }
 
 private:
 	unsigned int ObjectPointer;

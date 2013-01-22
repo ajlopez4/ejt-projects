@@ -25,6 +25,10 @@ public:
 
 	unsigned int TargetGuid();
 
+	int Experience();
+	int ExperienceToLevel();
+	int ExperienceRested();
+
 	virtual string Name();
 
 	bool InGame();

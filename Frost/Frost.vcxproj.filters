@@ -67,6 +67,9 @@
     <ClCompile Include="source\Application\CTextControl.cpp">
       <Filter>Application</Filter>
     </ClCompile>
+    <ClCompile Include="source\Core\CLocation.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\Application\CSystem.h">
@@ -125,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="source\Application\CTextControl.h">
       <Filter>Application</Filter>
+    </ClInclude>
+    <ClInclude Include="source\Core\CLocation.h">
+      <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

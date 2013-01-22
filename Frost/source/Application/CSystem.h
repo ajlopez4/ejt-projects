@@ -60,11 +60,13 @@ private:
 	CTextControl* TextPlayerHealth;
 	CTextControl* TextPlayerPower;
 	CTextControl* TextPlayerLevel;
+	CTextControl* TextPlayerLocation;
 	
 	CTextControl* TextTargetName;
 	CTextControl* TextTargetHealth;
 	CTextControl* TextTargetPower;
 	CTextControl* TextTargetLevel;
+	CTextControl* TextTargetLocation;
 };
 
 #endif

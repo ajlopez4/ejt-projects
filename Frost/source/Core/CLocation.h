@@ -14,46 +14,29 @@
 	You should have received a copy of the GNU General Public License
 	along with this program.  If not, see <http://www.gnu.org/licenses/>. */
 
-#ifndef _CMEMORY_H_
-#define _CMEMORY_H_
+#ifndef _CLOCATION_H_
+#define _CLOCATION_H_
 
-#include <Windows.h>
 #include <string>
-#include <TlHelp32.h>
 
-class CMemory {
+using namespace std;
+
+class CLocation {
 public:
-	CMemory();
-	~CMemory();
+	float X, Y, Z;
+	CLocation() {};
+	CLocation(float x, float y, float z) { X = x; Y = y; Z = z; }
 
-	bool Initialize();
-	DWORD GetProcessIDFromName(const char* ProcessName);
-	DWORD GetProcessBaseAddress(DWORD ProcessId);
-	bool EnablePriv();
+	double Bearing();
+	double GetDistanceTo(CLocation l);
+	double GetDistanceToFlat(CLocation l);
+	double GetDistanceToSelf();
+	double FacingTo(CLocation l);
 
-	template<class T>
-	T Read(unsigned int addr) {
-		T ret;
-		int result;
-		
-		result = ReadProcessMemory(hProcess, (LPCVOID)addr, &ret, sizeof(ret), 0);
+	string ToString();
+	double NegativeAngle(double angle);
 
-		if(result == 0) // failed
-			return (T)0;
-
-		return ret; // Success
-	};
-
-	std::string ReadString(unsigned int addr, int max);
-	
-	char szProcessName[100];
-	HANDLE hProcess;
-	DWORD dwBaseAddress;
-	DWORD dwProcessID;
-
-private:
+	static const double PI;
 };
-
-extern CMemory* Mem;
 
 #endif

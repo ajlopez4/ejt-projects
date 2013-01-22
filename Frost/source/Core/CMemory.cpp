@@ -118,9 +118,12 @@ bool CMemory::EnablePriv() {
 std::string CMemory::ReadString(unsigned int addr, int max) {
 	std::string retstr; // Return string
 	char ch; // buffer
+	int result;
 
 	while(true) { // Loop until it hits escape character or max
-		ReadProcessMemory(hProcess, (LPCVOID)addr, &ch, sizeof(ch), 0); // Read memory
+		result = ReadProcessMemory(hProcess, (LPCVOID)addr, &ch, sizeof(ch), 0); // Read memory
+		if(result == 0) // Failed
+			return "E";
 		if(ch == 0 || (ch & 0xff) == 0xcc) break; // If its an escape character, break
 		retstr += ch; // Add it to the return string
 		addr += sizeof(ch); // Increase address

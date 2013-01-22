@@ -25,6 +25,8 @@ public:
 
 	virtual string Name();
 
+	virtual bool IsValid() { return (ObjectPointer != 0); }
+
 private:
 	unsigned int ObjectPointer;
 };
