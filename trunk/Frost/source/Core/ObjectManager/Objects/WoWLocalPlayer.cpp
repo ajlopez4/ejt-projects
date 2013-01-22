@@ -24,6 +24,18 @@ unsigned int WoWLocalPlayer::TargetGuid() {
 	return Mem->Read<unsigned int>(Offsets::Target);
 }
 
+int WoWLocalPlayer::Experience() {
+	return Mem->Read<int>(Descriptors::PLAYER_FIELD_XP);
+}
+
+int WoWLocalPlayer::ExperienceToLevel() {
+	return Mem->Read<int>(Descriptors::PLAYER_FIELD_NEXT_LEVEL_XP);
+}
+
+int WoWLocalPlayer::ExperienceRested() {
+	return Mem->Read<int>(Descriptors::PLAYER_FIELD_REST_STATE_BONUS_POOL);
+}
+
 string WoWLocalPlayer::Name() {
 	return Mem->ReadString(Mem->dwBaseAddress + Offsets::PlayerName, 32);
 }

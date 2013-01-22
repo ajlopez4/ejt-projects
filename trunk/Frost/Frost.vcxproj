@@ -80,6 +80,7 @@
     <ClCompile Include="source\Application\CTabControl.cpp" />
     <ClCompile Include="source\Application\CTextControl.cpp" />
     <ClCompile Include="source\Application\WindowClass.cpp" />
+    <ClCompile Include="source\Core\CLocation.cpp" />
     <ClCompile Include="source\Core\CMemory.cpp" />
     <ClCompile Include="source\Core\ObjectManager\CObjectManager.cpp" />
     <ClCompile Include="source\Core\ObjectManager\Objects\WoWContainer.cpp" />
@@ -99,6 +100,7 @@
     <ClInclude Include="source\Application\CTabControl.h" />
     <ClInclude Include="source\Application\CTextControl.h" />
     <ClInclude Include="source\Application\WindowClass.h" />
+    <ClInclude Include="source\Core\CLocation.h" />
     <ClInclude Include="source\Core\CMemory.h" />
     <ClInclude Include="source\Core\ObjectManager\CObjectManager.h" />
     <ClInclude Include="source\Core\ObjectManager\Objects\WoWContainer.h" />

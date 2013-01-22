@@ -23,6 +23,8 @@
 #include <Offsets\Descriptors.h>
 #include <Offsets\Offsets.h>
 
+#include <CLocation.h>
+
 using namespace std;
 
 class WoWObject {
@@ -32,15 +34,26 @@ public:
 
 	int Type();
 	unsigned long Guid();
+	int Entry();
+
+	virtual CLocation Location();
 
 	template<class T>
 	T GetDescriptorField(unsigned int field) {
 		field *= Descriptors::DescriptorMulti;
 		unsigned int descPtr = Mem->Read<unsigned int>(ObjectPointer + Descriptors::DescriptorOffset);
-		return (T)Mem->Read<T>(descPtr + field);
+		
+		if(descPtr != 0) {
+			T ret = (T)Mem->Read<T>(descPtr + field);
+			return ret;
+		} else {
+			return (T)0;
+		}
 	};
-
-	bool IsValid();
+	
+	virtual bool WoWObject::IsValid() {
+		return (ObjectPointer != 0);
+	}
 
 private:
 	unsigned int ObjectPointer;

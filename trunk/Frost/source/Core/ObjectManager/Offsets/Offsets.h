@@ -24,14 +24,21 @@ namespace Offsets {
 		FirstObject = 0xCC,		// 5.1.0.16357
 		NextObject = 0x3C,		// 5.1.0.16357
 		LocalGuid = 0xD0,		// 5.1.0.16357
-		ObjectName1 = 0x1B8,	// 5.1.0.16357
-		ObjectName2 = 0xB4,		// 5.1.0.16357
+	};
+
+	enum Unit { // Offsets specific to units (including players)
+		UnitCast = 0xC38,		// 5.1.0.16357
+		UnitChannel = 0xC58,	// 5.1.0.16357
 		UnitName1 = 0x970,		// 5.1.0.16357
 		UnitName2 = 0x64,		// 5.1.0.16357
 		UnitTarget = 0x4C,		// 5.1.0.16357
+		UnitX = 0x7E8,			// 5.1.0.16357
+		UnitY = UnitX + 0x4,	// 5.1.0.16357
+		UnitZ = UnitY + 0x4,	// 5.1.0.16357
+		UnitR = UnitZ + 0x8,	// 5.1.0.16357
 	};
 
-	enum Player {
+	enum Player { // Offsets specific to local player (the person playing the game duh!)
 		PlayerName = 0xE28468,	// 5.1.0.16357
 		Target = 0xCC9F20,		// 5.1.0.16357
 		InGame = 0xCC9EFA,		// 5.1.0.16357
@@ -43,6 +50,15 @@ namespace Offsets {
         nameBaseOffset = 0x01C,			// 5.1.0.16357
         nameStringOffset = 0x021,		// 5.1.0.16357
     };
+
+	enum Object { // Object specific offsets
+		ObjectType = 0x10,			// 5.1.0.16357
+		ObjectX = 0xF0,				// 5.1.0.16357
+		ObjectY = ObjectX + 0x4,	// 5.1.0.16357
+		ObjectZ = ObjectY + 0x4,	// 5.1.0.16357
+		ObjectName1 = 0x1B8,		// 5.1.0.16357
+		ObjectName2 = 0xB4,			// 5.1.0.16357
+	};
 }
 
 #endif

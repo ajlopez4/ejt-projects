@@ -21,8 +21,42 @@ WoWUnit::WoWUnit(unsigned int objPtr) : WoWObject(objPtr) {
 	ObjectPointer = objPtr;
 }
 
+CLocation WoWUnit::Location() {
+	CLocation l;
+
+	l.X = Mem->Read<float>(ObjectPointer + Offsets::UnitX);
+	l.Y = Mem->Read<float>(ObjectPointer + Offsets::UnitY);
+	l.Z = Mem->Read<float>(ObjectPointer + Offsets::UnitZ);
+
+	return l;
+}
+
+float WoWUnit::Facing() {
+	return Mem->Read<float>(ObjectPointer + Offsets::UnitR);
+}
+
+unsigned long WoWUnit::CharmedBy() {
+	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_CHARMED_BY);
+}
+
+unsigned long WoWUnit::SummonedBy() {
+	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_SUMMONED_BY);
+}
+
+unsigned long WoWUnit::CreatedBy() {
+	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_CREATED_BY);
+}
+
+bool WoWUnit::Critter() {
+	return GetDescriptorField<bool>(Descriptors::UNIT_FIELD_CRITTER);
+}
+
 int WoWUnit::Level() {
 	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_LEVEL);
+}
+
+int WoWUnit::BaseHealth() {
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_BASE_HEALTH);
 }
 
 int WoWUnit::Health() {
@@ -35,6 +69,10 @@ int WoWUnit::MaxHealth() {
 
 int WoWUnit::HealthPercentage() {
 	if(Health() == 0) return 0; else return (100 * Health()) / MaxHealth();
+}
+
+int WoWUnit::BaseMana() {
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_BASE_MANA);
 }
 
 int WoWUnit::Power() {
@@ -74,6 +112,58 @@ WoWUnit WoWUnit::Target() {
 	return NULL;
 }
 
+WoWUnit WoWUnit::Pet() {
+	for each(WoWUnit* unit in ObjectManager->GetUnits()) {
+	}
+	return NULL;
+}
+
 unsigned long WoWUnit::TargetGuid() {
 	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_TARGET);
+}
+	int DisplayID();
+	int MountDisplayID();
+	bool Mounted();
+	bool Tagged();
+	bool TaggedByMe();
+	bool TaggedByOther();
+	bool CastingBar();
+	bool Casting();
+	bool ChanneledCasting();
+
+int WoWUnit::DisplayID() {
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_DISPLAY_ID);
+}
+
+int WoWUnit::MountDisplayID() {
+	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_MOUNT_DISPLAY_ID);
+}
+
+bool WoWUnit::Mounted() {
+	return (MountDisplayID() > 0);
+}
+
+/* TODO: Need a function to check for dynamic flag before we can implement these
+bool WoWUnit::Tagged() {
+	
+}
+
+bool WoWUnit::TaggedByMe() {
+	
+}
+
+bool WoWUnit::TaggedByOther() {
+	
+} */
+
+bool WoWUnit::CastingBar() {
+	return Mem->Read<bool>(ObjectPointer + Offsets::UnitCast);
+}
+
+bool WoWUnit::Casting() {
+	return (CastingBar() || ChanneledCasting());
+}
+
+bool WoWUnit::ChanneledCasting() {
+	return Mem->Read<bool>(ObjectPointer + Offsets::UnitChannel);
 }

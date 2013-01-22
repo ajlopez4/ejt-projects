@@ -26,13 +26,23 @@ WoWObject::~WoWObject() {
 }
 
 int WoWObject::Type() {
-	return Mem->Read<int>(ObjectPointer + 0x10);
+	return Mem->Read<int>(ObjectPointer + Offsets::ObjectType);
 }
 
 unsigned long WoWObject::Guid() {
 	return GetDescriptorField<unsigned long>(Descriptors::OBJECT_FIELD_GUID);
 }
 
-bool WoWObject::IsValid() {
-	return (ObjectPointer != 0);
+int WoWObject::Entry() {
+	return GetDescriptorField<int>(Descriptors::OBJECT_FIELD_ENTRY);
+}
+
+CLocation WoWObject::Location() {
+	CLocation l;
+
+	l.X = Mem->Read<float>(ObjectPointer + Offsets::ObjectX);
+	l.Y = Mem->Read<float>(ObjectPointer + Offsets::ObjectY);
+	l.Z = Mem->Read<float>(ObjectPointer + Offsets::ObjectZ);
+
+	return l;
 }

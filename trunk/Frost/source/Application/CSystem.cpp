@@ -95,6 +95,11 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextPlayerLevel->Text("Player Level");
 				MainTab->AddControl("General", TextPlayerLevel->Handle());
 
+				TextPlayerLocation = new CTextControl;
+				TextPlayerLocation->Create(MainTab->Handle());
+				TextPlayerLocation->Text("Player Location");
+				MainTab->AddControl("General", TextPlayerLocation->Handle());
+
 				TextTargetName = new CTextControl;
 				TextTargetName->Create(MainTab->Handle());
 				TextTargetName->Text("Target Name");
@@ -114,6 +119,11 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextTargetLevel->Create(MainTab->Handle());
 				TextTargetLevel->Text("Target Level");
 				MainTab->AddControl("General", TextTargetLevel->Handle());
+
+				TextTargetLocation = new CTextControl;
+				TextTargetLocation->Create(MainTab->Handle());
+				TextTargetLocation->Text("Target Location");
+				MainTab->AddControl("General", TextTargetLocation->Handle());
 
 				/* OBJECT MANAGER TAB */
 				ObjectsTab = new CTabControl;
@@ -182,7 +192,7 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						/* TESTING */
 						ListPlayers->Clear();
 						for each(WoWPlayer * player in ObjectManager->GetPlayers()) {
-							if(player->Guid() != 0) {
+							if(player->IsValid()) {
 								char guid[64] = {0};
 								char name[64] = {0};
 								char health[64] = {0};
@@ -205,7 +215,7 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 
 						ListUnits->Clear();
 						for each(WoWUnit * unit in ObjectManager->GetUnits()) {
-							if(unit->Guid() != 0) {
+							if(unit->IsValid()) {
 								char guid[64] = {0};
 								char name[64] = {0};
 								char health[64] = {0};
@@ -225,6 +235,7 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 								ListUnits->AddRow(row);
 							}
 						}
+						LPSTR powerType = ObjectManager->GetLocalPlayer()->PowerType();
 						/* END OF TESTING */
 						
 						TextPlayerName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Name().c_str());
@@ -236,6 +247,7 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 							ObjectManager->GetLocalPlayer()->MaxPower(),
 							ObjectManager->GetLocalPlayer()->PowerPercentage());
 						TextPlayerLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Level());
+						TextPlayerLocation->Text("%s", ObjectManager->GetLocalPlayer()->Location().ToString().c_str());
 
 						if(ObjectManager->GetLocalPlayer()->Target().IsValid()) {
 							TextTargetName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Target().Name().c_str());
@@ -247,11 +259,13 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 								ObjectManager->GetLocalPlayer()->Target().MaxPower(),
 								ObjectManager->GetLocalPlayer()->Target().PowerPercentage());
 							TextTargetLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Target().Level());
+							TextTargetLocation->Text("%s", ObjectManager->GetLocalPlayer()->Target().Location().ToString().c_str());
 						} else {
 							TextTargetName->Text("N/A");
 							TextTargetHealth->Text("N/A");
 							TextTargetPower->Text("N/A");
 							TextTargetLevel->Text("N/A");
+							TextTargetLocation->Text("N/A");
 						}
 					}
 					break;
@@ -286,11 +300,13 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextPlayerHealth->SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
 				TextPlayerPower->SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
 				TextPlayerLevel->SetPos(rcMain.left + 10, rcMain.top + 95, 250, 20);
+				TextPlayerLocation->SetPos(rcMain.left + 10, rcMain.top + 115, 250, 20);
 				
 				TextTargetName->SetPos(rcMain.left + 260, rcMain.top + 35, 250, 20);
 				TextTargetHealth->SetPos(rcMain.left + 260, rcMain.top + 55, 250, 20);
 				TextTargetPower->SetPos(rcMain.left + 260, rcMain.top + 75, 250, 20);
 				TextTargetLevel->SetPos(rcMain.left + 260, rcMain.top + 95, 250, 20);
+				TextTargetLocation->SetPos(rcMain.left + 260, rcMain.top + 115, 250, 20);
 			}
 			break;
 		case WM_DESTROY:
