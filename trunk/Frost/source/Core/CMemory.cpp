@@ -16,7 +16,7 @@
 
 #include <CMemory.h>
 
-CMemory* Mem;
+CMemory Mem;
 
 CMemory::CMemory() {
 	hProcess = NULL;

@@ -37,35 +37,35 @@ bool CTabControl::Create(HWND hParent) {
 }
 
 bool CTabControl::AddTab(LPSTR title) {
-	TabStruct *newTab = new TabStruct;
+	TabStruct ts;
 	TCITEM tie;
 
-	newTab->pos = TabList.size();
-	newTab->text = title;
+	ts.pos = TabList.size();
+	ts.text = title;
 
 	tie.mask = TCIF_TEXT;
-	tie.pszText = newTab->text;
+	tie.pszText = ts.text;
 
-	if(TabCtrl_InsertItem(hwnd, newTab->pos, &tie) == -1)
+	if(TabCtrl_InsertItem(hwnd, ts.pos, &tie) == -1)
 		return false;
 
-	TabList.push_back(newTab);
+	TabList.push_back(ts);
 
 	return true;
 }
 
 void CTabControl::RemoveTab(LPSTR title) {
-	for(list<TabStruct*>::iterator it = TabList.begin(); it != TabList.end(); it++) {
-		if(strcmp((*it)->text, title) == 0) {
-			TabCtrl_DeleteItem(hwnd, (*it)->pos);
+	for(list<TabStruct>::iterator it = TabList.begin(); it != TabList.end(); it++) {
+		if(strcmp(it->text, title) == 0) {
+			TabCtrl_DeleteItem(hwnd, it->pos);
 		}
 	}
 }
 
 void CTabControl::AddControl(LPSTR parent, HWND hControl) {
-	for(list<TabStruct*>::iterator it = TabList.begin(); it != TabList.end(); it++) {
-		if(strcmp((*it)->text, parent) == 0) {
-			(*it)->children.push_back(hControl);
+	for(list<TabStruct>::iterator it = TabList.begin(); it != TabList.end(); it++) {
+		if(strcmp(it->text, parent) == 0) {
+			it->children.push_back(hControl);
 		}
 	}
 }
@@ -75,12 +75,12 @@ void CTabControl::SetSize(RECT newSize) {
 }
 
 void CTabControl::SwitchTab(LPSTR title = "", int pos = -1) {
-	for(list<TabStruct*>::iterator it = TabList.begin(); it != TabList.end(); it++) {
-		for(list<HWND>::iterator it2 = (*it)->children.begin(); it2 != (*it)->children.end(); it2++) {
-			if(strcmp((*it)->text, title) == 0 || (*it)->pos == pos) {
-				ShowWindow((*it2), SW_SHOW);
+	for(list<TabStruct>::iterator it = TabList.begin(); it != TabList.end(); it++) {
+		for(list<HWND>::iterator it2 = it->children.begin(); it2 != it->children.end(); it2++) {
+			if(strcmp(it->text, title) == 0 || it->pos == pos) {
+				ShowWindow(*it2, SW_SHOW);
 			} else {
-				ShowWindow((*it2), SW_HIDE);
+				ShowWindow(*it2, SW_HIDE);
 			}
 		}
 	}

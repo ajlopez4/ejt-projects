@@ -25,6 +25,7 @@ class CLocation {
 public:
 	float X, Y, Z;
 	CLocation() {};
+	CLocation(CLocation* l) { X = l->X; Y = l->Y; Z = l->Z; }
 	CLocation(float x, float y, float z) { X = x; Y = y; Z = z; }
 
 	double Bearing();

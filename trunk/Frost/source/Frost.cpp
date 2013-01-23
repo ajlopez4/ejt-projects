@@ -20,52 +20,27 @@
 #include <Application\CSystem.h>
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow) {
-	WindowClass* wndClass;
-	CSystem* System;
+	WindowClass wndClass(hInstance, "FrostWndClass");
 
-	wndClass = new WindowClass(GetModuleHandle(NULL), "FrostWndClass");
-
-	if(!wndClass) {
-		MessageBox(NULL, "Failed to create WindowClass class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
-		return 0;
-	}
-
-	if(!wndClass->Register()) {
+	if(!wndClass.Register()) {
 		MessageBox(NULL, "Failed to register window class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
 		return 0;
 	}
 
-	System = new CSystem("Frost - Simple World of Warcraft Bot", wndClass->className());
+	CSystem System("Frost - Simple World of Warcraft Bot", wndClass.className());
 
-	if(!System) {
-		MessageBox(NULL, "Failed to create CSystem class!", "Error!", MB_ICONEXCLAMATION | MB_OK);
+	if(!System.Create()) {
+		MessageBox(NULL, "System.Create() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
 		return 0;
 	}
 
-	if(!System->Create()) {
-		MessageBox(NULL, "System->Create() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
-		return 0;
-	}
+	System.Show();
 
-	System->Show();
-
-
-	if(System->Initialize()) {
-		System->Run();
+	if(System.Initialize()) {
+		System.Run();
 	} else {
-		MessageBox(NULL, "System->Initialize() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
+		MessageBox(NULL, "System.Initialize() returned false", "Error!", MB_ICONEXCLAMATION | MB_OK);
 		return 0;
-	}
-
-	if(wndClass) {
-		delete wndClass;
-		wndClass = 0;
-	}
-
-	if(System) {
-		System->Shutdown();
-		delete System;
-		System = 0;
 	}
 
 	return 0;

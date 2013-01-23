@@ -26,7 +26,7 @@ WoWObject::~WoWObject() {
 }
 
 int WoWObject::Type() {
-	return Mem->Read<int>(ObjectPointer + Offsets::ObjectType);
+	return Mem.Read<int>(ObjectPointer + Offsets::ObjectType);
 }
 
 unsigned long WoWObject::Guid() {
@@ -40,9 +40,9 @@ int WoWObject::Entry() {
 CLocation WoWObject::Location() {
 	CLocation l;
 
-	l.X = Mem->Read<float>(ObjectPointer + Offsets::ObjectX);
-	l.Y = Mem->Read<float>(ObjectPointer + Offsets::ObjectY);
-	l.Z = Mem->Read<float>(ObjectPointer + Offsets::ObjectZ);
+	l.X = Mem.Read<float>(ObjectPointer + Offsets::ObjectX);
+	l.Y = Mem.Read<float>(ObjectPointer + Offsets::ObjectY);
+	l.Z = Mem.Read<float>(ObjectPointer + Offsets::ObjectZ);
 
 	return l;
 }
