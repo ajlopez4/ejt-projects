@@ -39,7 +39,7 @@ private:
 		LPSTR text;
 	};
 
-	list<ColumnStruct*> ColumnList;
+	list<ColumnStruct> ColumnList;
 
 	HWND hwnd;
 };

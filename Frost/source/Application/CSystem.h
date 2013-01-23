@@ -38,10 +38,8 @@ using namespace std;
 
 class CSystem : public AbstractWindow {
 public:
-
 	CSystem(const char*, const char*);
 	bool Initialize();
-	void Shutdown();
 	void Run();
 
 	virtual LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);
@@ -49,24 +47,24 @@ public:
 	void Show() { ShowWindow(_hwnd, SW_SHOW); UpdateWindow(_hwnd); }
 private:
 
-	CTabControl* MainTab;
-	CTabControl* ObjectsTab;
+	CTabControl MainTab;
+	CTabControl ObjectsTab;
 
-	CListControl* ListPlayers;
-	CListControl* ListUnits;
-	CListControl* ListObjects;
+	CListControl ListPlayers;
+	CListControl ListUnits;
+	CListControl ListObjects;
 	
-	CTextControl* TextPlayerName;
-	CTextControl* TextPlayerHealth;
-	CTextControl* TextPlayerPower;
-	CTextControl* TextPlayerLevel;
-	CTextControl* TextPlayerLocation;
+	CTextControl TextPlayerName;
+	CTextControl TextPlayerHealth;
+	CTextControl TextPlayerPower;
+	CTextControl TextPlayerLevel;
+	CTextControl TextPlayerLocation;
 	
-	CTextControl* TextTargetName;
-	CTextControl* TextTargetHealth;
-	CTextControl* TextTargetPower;
-	CTextControl* TextTargetLevel;
-	CTextControl* TextTargetLocation;
+	CTextControl TextTargetName;
+	CTextControl TextTargetHealth;
+	CTextControl TextTargetPower;
+	CTextControl TextTargetLevel;
+	CTextControl TextTargetLocation;
 };
 
 #endif

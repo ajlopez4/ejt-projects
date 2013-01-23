@@ -37,19 +37,19 @@ bool CListControl::Create(HWND hParent) {
 }
 
 bool CListControl::AddColumn(LPSTR str, int width = 100) {
-	ColumnStruct* cs = new ColumnStruct;
+	ColumnStruct cs;
 	LVCOLUMN lvc;
 	
-	cs->pos = ColumnList.size();
-	cs->text = str;
+	cs.pos = ColumnList.size();
+	cs.text = str;
 
 
 	lvc.mask = LVCF_SUBITEM | LVCF_TEXT | LVCF_WIDTH;
-	lvc.iSubItem = cs->pos;
-	lvc.pszText = cs->text;
+	lvc.iSubItem = cs.pos;
+	lvc.pszText = cs.text;
 	lvc.cx = width;
 
-	if(ListView_InsertColumn(hwnd, cs->pos, &lvc) == -1)
+	if(ListView_InsertColumn(hwnd, cs.pos, &lvc) == -1)
 		return false;
 
 	ColumnList.push_back(cs);

@@ -29,29 +29,15 @@ CSystem::CSystem(const char* wndName, const char* className) : AbstractWindow() 
 }
 
 bool CSystem::Initialize() {
-	Mem = new CMemory;
-	if(!Mem || !Mem->Initialize())
+	if(!Mem.Initialize())
 		return false;
 
-	ObjectManager = new CObjectManager;
-	if(!ObjectManager || !ObjectManager->Initialize())
+	if(!ObjectManager.Initialize())
 		return false;
 
-	ObjectManager->Pulse(); // Force pulse to get local player
+	ObjectManager.Pulse(); // Force pulse to get local player
 
 	return true;
-}
-
-void CSystem::Shutdown() {
-	if(Mem) {
-		delete Mem;
-		Mem = 0;
-	}
-
-	if(ObjectManager) {
-		delete ObjectManager;
-		ObjectManager = 0;
-	}
 }
 
 void CSystem::Run() {
@@ -63,109 +49,97 @@ void CSystem::Run() {
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
+
+	delete Me;
+	Me = 0;
 }
 
 LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch(msg) {
 		case WM_CREATE:
 			{
-				MainTab = new CTabControl;
-				MainTab->Create(hwnd);
-				MainTab->AddTab("General");
-				MainTab->AddTab("Object Manager");
+				MainTab.Create(hwnd);
+				MainTab.AddTab("General");
+				MainTab.AddTab("Object Manager");
 
 				/* GENERAL TAB */
-				TextPlayerName = new CTextControl;
-				TextPlayerName->Create(MainTab->Handle());
-				TextPlayerName->Text("Player Name");
-				MainTab->AddControl("General", TextPlayerName->Handle());
+				TextPlayerName.Create(MainTab.Handle());
+				TextPlayerName.Text("Player Name");
+				MainTab.AddControl("General", TextPlayerName.Handle());
 
-				TextPlayerHealth = new CTextControl;
-				TextPlayerHealth->Create(MainTab->Handle());
-				TextPlayerHealth->Text("Player Health");
-				MainTab->AddControl("General", TextPlayerHealth->Handle());
+				TextPlayerHealth.Create(MainTab.Handle());
+				TextPlayerHealth.Text("Player Health");
+				MainTab.AddControl("General", TextPlayerHealth.Handle());
 
-				TextPlayerPower = new CTextControl;
-				TextPlayerPower->Create(MainTab->Handle());
-				TextPlayerPower->Text("Player Power");
-				MainTab->AddControl("General", TextPlayerPower->Handle());
+				TextPlayerPower.Create(MainTab.Handle());
+				TextPlayerPower.Text("Player Power");
+				MainTab.AddControl("General", TextPlayerPower.Handle());
 
-				TextPlayerLevel = new CTextControl;
-				TextPlayerLevel->Create(MainTab->Handle());
-				TextPlayerLevel->Text("Player Level");
-				MainTab->AddControl("General", TextPlayerLevel->Handle());
+				TextPlayerLevel.Create(MainTab.Handle());
+				TextPlayerLevel.Text("Player Level");
+				MainTab.AddControl("General", TextPlayerLevel.Handle());
 
-				TextPlayerLocation = new CTextControl;
-				TextPlayerLocation->Create(MainTab->Handle());
-				TextPlayerLocation->Text("Player Location");
-				MainTab->AddControl("General", TextPlayerLocation->Handle());
+				TextPlayerLocation.Create(MainTab.Handle());
+				TextPlayerLocation.Text("Player Location");
+				MainTab.AddControl("General", TextPlayerLocation.Handle());
 
-				TextTargetName = new CTextControl;
-				TextTargetName->Create(MainTab->Handle());
-				TextTargetName->Text("Target Name");
-				MainTab->AddControl("General", TextTargetName->Handle());
+				TextTargetName.Create(MainTab.Handle());
+				TextTargetName.Text("Target Name");
+				MainTab.AddControl("General", TextTargetName.Handle());
 
-				TextTargetHealth = new CTextControl;
-				TextTargetHealth->Create(MainTab->Handle());
-				TextTargetHealth->Text("Target Health");
-				MainTab->AddControl("General", TextTargetHealth->Handle());
+				TextTargetHealth.Create(MainTab.Handle());
+				TextTargetHealth.Text("Target Health");
+				MainTab.AddControl("General", TextTargetHealth.Handle());
 
-				TextTargetPower = new CTextControl;
-				TextTargetPower->Create(MainTab->Handle());
-				TextTargetPower->Text("Target Power");
-				MainTab->AddControl("General", TextTargetPower->Handle());
+				TextTargetPower.Create(MainTab.Handle());
+				TextTargetPower.Text("Target Power");
+				MainTab.AddControl("General", TextTargetPower.Handle());
 
-				TextTargetLevel = new CTextControl;
-				TextTargetLevel->Create(MainTab->Handle());
-				TextTargetLevel->Text("Target Level");
-				MainTab->AddControl("General", TextTargetLevel->Handle());
+				TextTargetLevel.Create(MainTab.Handle());
+				TextTargetLevel.Text("Target Level");
+				MainTab.AddControl("General", TextTargetLevel.Handle());
 
-				TextTargetLocation = new CTextControl;
-				TextTargetLocation->Create(MainTab->Handle());
-				TextTargetLocation->Text("Target Location");
-				MainTab->AddControl("General", TextTargetLocation->Handle());
+				TextTargetLocation.Create(MainTab.Handle());
+				TextTargetLocation.Text("Target Location");
+				MainTab.AddControl("General", TextTargetLocation.Handle());
 
 				/* OBJECT MANAGER TAB */
-				ObjectsTab = new CTabControl;
-				ObjectsTab->Create(MainTab->Handle());
-				ObjectsTab->AddTab("Players");
-				ObjectsTab->AddTab("Units");
-				ObjectsTab->AddTab("Objects");
+				ObjectsTab.Create(MainTab.Handle());
+				ObjectsTab.AddTab("Players");
+				ObjectsTab.AddTab("Units");
+				ObjectsTab.AddTab("Objects");
 
-				MainTab->AddControl("Object Manager", ObjectsTab->Handle());
+				MainTab.AddControl("Object Manager", ObjectsTab.Handle());
 
-				ListPlayers = new CListControl;
-				ListPlayers->Create(ObjectsTab->Handle());
-				ListPlayers->AddColumn("GUID", 100);
-				ListPlayers->AddColumn("Name", 100);
-				ListPlayers->AddColumn("Health", 150);
-				ListPlayers->AddColumn("Power", 150);
-				ListPlayers->AddColumn("Level", 100);
+				ListPlayers.Create(ObjectsTab.Handle());
+				ListPlayers.AddColumn("GUID", 100);
+				ListPlayers.AddColumn("Name", 100);
+				ListPlayers.AddColumn("Health", 150);
+				ListPlayers.AddColumn("Power", 150);
+				ListPlayers.AddColumn("Level", 100);
 
-				ObjectsTab->AddControl("Players", ListPlayers->Handle());
+				ObjectsTab.AddControl("Players", ListPlayers.Handle());
 
-				ListUnits = new CListControl;
-				ListUnits->Create(ObjectsTab->Handle());
-				ListUnits->AddColumn("GUID", 100);
-				ListUnits->AddColumn("Name", 100);
-				ListUnits->AddColumn("Health", 150);
-				ListUnits->AddColumn("Power", 150);
-				ListUnits->AddColumn("Level", 100);
+				ListUnits.Create(ObjectsTab.Handle());
+				ListUnits.AddColumn("GUID", 100);
+				ListUnits.AddColumn("Name", 100);
+				ListUnits.AddColumn("Health", 150);
+				ListUnits.AddColumn("Power", 150);
+				ListUnits.AddColumn("Level", 100);
 
-				ObjectsTab->AddControl("Units", ListUnits->Handle());
+				ObjectsTab.AddControl("Units", ListUnits.Handle());
 
-				ListObjects = new CListControl;
-				ListObjects->Create(ObjectsTab->Handle());
-				ListObjects->AddColumn("GUID", 100);
+				ListObjects.Create(ObjectsTab.Handle());
+				ListObjects.AddColumn("GUID", 100);
 
-				ObjectsTab->AddControl("Objects", ListObjects->Handle());
+				ObjectsTab.AddControl("Objects", ListObjects.Handle());
 
-				MainTab->SwitchTab("General", -1);
-				ObjectsTab->SwitchTab("Players", -1);
+				MainTab.SwitchTab("General", -1);
+				ObjectsTab.SwitchTab("Players", -1);
 
 				SendMessage(hwnd, WM_SIZE, 0, 0); // Force resize
 
-				SetTimer(hwnd, TIMER_UPDATE_INFO, 1000, (TIMERPROC)NULL);
+				SetTimer(hwnd, TIMER_UPDATE_INFO, 50, (TIMERPROC)NULL);
 			}
 			break;
 		case WM_NOTIFY:
@@ -177,10 +151,10 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 					{
 						int page = TabCtrl_GetCurSel(((LPNMHDR)lParam)->hwndFrom);
 						
-						if(((LPNMHDR)lParam)->hwndFrom == MainTab->Handle())
-							MainTab->SwitchTab("", page);
-						else if(((LPNMHDR)lParam)->hwndFrom == ObjectsTab->Handle())
-							ObjectsTab->SwitchTab("", page);
+						if(((LPNMHDR)lParam)->hwndFrom == MainTab.Handle())
+							MainTab.SwitchTab("", page);
+						else if(((LPNMHDR)lParam)->hwndFrom == ObjectsTab.Handle())
+							ObjectsTab.SwitchTab("", page);
 					}
 					break;
 			}
@@ -188,84 +162,88 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		case WM_TIMER:
 			switch(wParam) {
 				case TIMER_UPDATE_INFO:
-					if(ObjectManager->GetLocalPlayer()->InGame()) {
+					if(Me->InGame()) {
 						/* TESTING */
-						ListPlayers->Clear();
-						for each(WoWPlayer * player in ObjectManager->GetPlayers()) {
-							if(player->IsValid()) {
+						ListPlayers.Clear();
+						for each(WoWPlayer player in ObjectManager.GetPlayers()) {
+							if(player.IsValid()) {
 								char guid[64] = {0};
 								char name[64] = {0};
 								char health[64] = {0};
 								char power[64] = {0};
 								char level[64] = {0};
-								sprintf_s(guid, "0x%X", (player->Guid() & 0xFFFFFFFF));
-								sprintf_s(name, "%s", player->Name().c_str());
-								if(player->Dead()) {
+								sprintf_s(guid, "0x%X", (player.Guid() & 0xFFFFFFFF));
+								sprintf_s(name, "%s", player.Name().c_str());
+								if(player.Dead()) {
 									sprintf_s(health, "Dead");
 									sprintf_s(power, "Dead");
 								} else {
-									sprintf_s(health, "%d/%d (%d%%)", player->Health(), player->MaxHealth(), player->HealthPercentage());
-									sprintf_s(power, "%d/%d (%d%%)", player->Power(), player->MaxPower(), player->PowerPercentage());
+									sprintf_s(health, "%d/%d (%d%%)", player.Health(), player.MaxHealth(), player.HealthPercentage());
+									sprintf_s(power, "%d/%d (%d%%)", player.Power(), player.MaxPower(), player.PowerPercentage());
 								}
-								sprintf_s(level, "%d", player->Level());
+								sprintf_s(level, "%d", player.Level());
 								LPSTR row[] = { guid, name, health, power, level };
-								ListPlayers->AddRow(row);
+								ListPlayers.AddRow(row);
 							}
 						}
 
-						ListUnits->Clear();
-						for each(WoWUnit * unit in ObjectManager->GetUnits()) {
-							if(unit->IsValid()) {
+						ListUnits.Clear();
+						for each(WoWUnit unit in ObjectManager.GetUnits()) {
+							if(unit.IsValid()) {
 								char guid[64] = {0};
 								char name[64] = {0};
 								char health[64] = {0};
 								char power[64] = {0};
 								char level[64] = {0};
-								sprintf_s(guid, "0x%X", (unit->Guid() & 0xFFFFFFFF));
-								sprintf_s(name, "%s", unit->Name().c_str());
-								if(unit->Dead()) {
+								sprintf_s(guid, "0x%X", (unit.Guid() & 0xFFFFFFFF));
+								sprintf_s(name, "%s", unit.Name().c_str());
+								if(unit.Dead()) {
 									sprintf_s(health, "Dead");
 									sprintf_s(power, "Dead");
 								} else {
-									sprintf_s(health, "%d/%d (%d%%)", unit->Health(), unit->MaxHealth(), unit->HealthPercentage());
-									sprintf_s(power, "%d/%d (%d%%)", unit->Power(), unit->MaxPower(), unit->PowerPercentage());
+									sprintf_s(health, "%d/%d (%d%%)", unit.Health(), unit.MaxHealth(), unit.HealthPercentage());
+									sprintf_s(power, "%d/%d (%d%%)", unit.Power(), unit.MaxPower(), unit.PowerPercentage());
 								}
-								sprintf_s(level, "%d", unit->Level());
+								sprintf_s(level, "%d", unit.Level());
 								LPSTR row[] = { guid, name, health, power, level };
-								ListUnits->AddRow(row);
+								ListUnits.AddRow(row);
 							}
 						}
-						LPSTR powerType = ObjectManager->GetLocalPlayer()->PowerType();
+						LPSTR powerType = Me->PowerType();
 						/* END OF TESTING */
 						
-						TextPlayerName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Name().c_str());
-						TextPlayerHealth->Text("Health: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Health(),
-							ObjectManager->GetLocalPlayer()->MaxHealth(),
-							ObjectManager->GetLocalPlayer()->HealthPercentage());
-						TextPlayerPower->Text("%s: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->PowerType(),
-							ObjectManager->GetLocalPlayer()->Power(),
-							ObjectManager->GetLocalPlayer()->MaxPower(),
-							ObjectManager->GetLocalPlayer()->PowerPercentage());
-						TextPlayerLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Level());
-						TextPlayerLocation->Text("%s", ObjectManager->GetLocalPlayer()->Location().ToString().c_str());
+						TextPlayerName.Text("Name: %s", Me->Name().c_str());
+						TextPlayerHealth.Text("Health: %d/%d (%d%%)", Me->Health(),
+							Me->MaxHealth(),
+							Me->HealthPercentage());
+						TextPlayerPower.Text("%s: %d/%d (%d%%)", Me->PowerType(),
+							Me->Power(),
+							Me->MaxPower(),
+							Me->PowerPercentage());
+						TextPlayerLevel.Text("Level: %d", Me->Level());
+						TextPlayerLocation.Text("%s\nF: %4.2f", Me->Location().ToString().c_str(),
+							Me->Location().FacingTo(Me->Target().Location()),
+								Me->Facing());
 
-						if(ObjectManager->GetLocalPlayer()->Target().IsValid()) {
-							TextTargetName->Text("Name: %s", ObjectManager->GetLocalPlayer()->Target().Name().c_str());
-							TextTargetHealth->Text("Health: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Target().Health(),
-								ObjectManager->GetLocalPlayer()->Target().MaxHealth(),
-								ObjectManager->GetLocalPlayer()->Target().HealthPercentage());
-							TextTargetPower->Text("%s: %d/%d (%d%%)", ObjectManager->GetLocalPlayer()->Target().PowerType(),
-								ObjectManager->GetLocalPlayer()->Target().Power(),
-								ObjectManager->GetLocalPlayer()->Target().MaxPower(),
-								ObjectManager->GetLocalPlayer()->Target().PowerPercentage());
-							TextTargetLevel->Text("Level: %d", ObjectManager->GetLocalPlayer()->Target().Level());
-							TextTargetLocation->Text("%s", ObjectManager->GetLocalPlayer()->Target().Location().ToString().c_str());
+						if(Me->Target().IsValid()) {
+							TextTargetName.Text("Name: %s", Me->Target().Name().c_str());
+							TextTargetHealth.Text("Health: %d/%d (%d%%)", Me->Target().Health(),
+								Me->Target().MaxHealth(),
+								Me->Target().HealthPercentage());
+							TextTargetPower.Text("%s: %d/%d (%d%%)", Me->Target().PowerType(),
+								Me->Target().Power(),
+								Me->Target().MaxPower(),
+								Me->Target().PowerPercentage());
+							TextTargetLevel.Text("Level: %d", Me->Target().Level());
+							TextTargetLocation.Text("%s\n<2D: %4.2f 3D: %4.2f>", Me->Target().Location().ToString().c_str(),
+								Me->Location().GetDistanceToFlat(Me->Target().Location()),
+								Me->Location().GetDistanceTo(Me->Target().Location()));
 						} else {
-							TextTargetName->Text("N/A");
-							TextTargetHealth->Text("N/A");
-							TextTargetPower->Text("N/A");
-							TextTargetLevel->Text("N/A");
-							TextTargetLocation->Text("N/A");
+							TextTargetName.Text("N/A");
+							TextTargetHealth.Text("N/A");
+							TextTargetPower.Text("N/A");
+							TextTargetLevel.Text("N/A");
+							TextTargetLocation.Text("N/A");
 						}
 					}
 					break;
@@ -276,37 +254,37 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				RECT rcClient;
 				RECT rcMain;
 				GetClientRect(hwnd, &rcClient);
-				GetClientRect(MainTab->Handle(), &rcMain);
+				GetClientRect(MainTab.Handle(), &rcMain);
 
-				MainTab->SetSize(rcClient);
+				MainTab.SetSize(rcClient);
 
 				rcClient.top += 28;
 				rcClient.left += 5;
 				rcClient.bottom = rcClient.bottom - rcClient.top - 5;
 				rcClient.right = rcClient.right - rcClient.left - 5;
 
-				ObjectsTab->SetSize(rcClient);
+				ObjectsTab.SetSize(rcClient);
 
 				rcClient.left -= 4;
 				rcClient.top -= 4;
 				rcClient.bottom = rcClient.bottom - rcClient.top - 2;
 				rcClient.right = rcClient.right - rcClient.left - 3;
 				
-				ListPlayers->SetPos(rcClient);
-				ListUnits->SetPos(rcClient);
-				ListObjects->SetPos(rcClient);
+				ListPlayers.SetPos(rcClient);
+				ListUnits.SetPos(rcClient);
+				ListObjects.SetPos(rcClient);
 				
-				TextPlayerName->SetPos(rcMain.left + 10, rcMain.top + 35, 250, 20);
-				TextPlayerHealth->SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
-				TextPlayerPower->SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
-				TextPlayerLevel->SetPos(rcMain.left + 10, rcMain.top + 95, 250, 20);
-				TextPlayerLocation->SetPos(rcMain.left + 10, rcMain.top + 115, 250, 20);
+				TextPlayerName.SetPos(rcMain.left + 10, rcMain.top + 35, 250, 20);
+				TextPlayerHealth.SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
+				TextPlayerPower.SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
+				TextPlayerLevel.SetPos(rcMain.left + 10, rcMain.top + 95, 250, 20);
+				TextPlayerLocation.SetPos(rcMain.left + 10, rcMain.top + 115, 250, 40);
 				
-				TextTargetName->SetPos(rcMain.left + 260, rcMain.top + 35, 250, 20);
-				TextTargetHealth->SetPos(rcMain.left + 260, rcMain.top + 55, 250, 20);
-				TextTargetPower->SetPos(rcMain.left + 260, rcMain.top + 75, 250, 20);
-				TextTargetLevel->SetPos(rcMain.left + 260, rcMain.top + 95, 250, 20);
-				TextTargetLocation->SetPos(rcMain.left + 260, rcMain.top + 115, 250, 20);
+				TextTargetName.SetPos(rcMain.left + 260, rcMain.top + 35, 250, 20);
+				TextTargetHealth.SetPos(rcMain.left + 260, rcMain.top + 55, 250, 20);
+				TextTargetPower.SetPos(rcMain.left + 260, rcMain.top + 75, 250, 20);
+				TextTargetLevel.SetPos(rcMain.left + 260, rcMain.top + 95, 250, 20);
+				TextTargetLocation.SetPos(rcMain.left + 260, rcMain.top + 115, 250, 40);
 			}
 			break;
 		case WM_DESTROY:

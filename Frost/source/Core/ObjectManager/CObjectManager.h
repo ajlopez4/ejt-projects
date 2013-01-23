@@ -33,29 +33,26 @@ class CObjectManager {
 public:
 	bool Initialize();
 	void Pulse();
-
-	WoWLocalPlayer *GetLocalPlayer() { return LocalPlayer; }
 	
-	list<WoWContainer*> GetContainers() { return *(new list<WoWContainer*>(ContainerList)); }
-	list<WoWGameObject*> GetGameObjects() { return *(new list<WoWGameObject*>(GameObjectList)); }
-	list<WoWItem*> GetItems() { return *(new list<WoWItem*>(ItemList)); }
-	list<WoWPlayer*> GetPlayers() { return *(new list<WoWPlayer*>(PlayerList)); }
-	list<WoWUnit*> GetUnits() {  return *(new list<WoWUnit*>(UnitList)); }
+	list<WoWContainer> GetContainers() { return ContainerList; }
+	list<WoWGameObject> GetGameObjects() { return GameObjectList; }
+	list<WoWItem> GetItems() { return ItemList; }
+	list<WoWPlayer> GetPlayers() { return PlayerList; }
+	list<WoWUnit> GetUnits() {  return UnitList; }
 private:
 	unsigned int objectManager;
 	unsigned long LocalPlayerGuid;
 
 	void PurgeLists();
 
-	WoWLocalPlayer *LocalPlayer;
-
-	list<WoWContainer*>		ContainerList;
-	list<WoWGameObject*>	GameObjectList;
-	list<WoWItem*>			ItemList;
-	list<WoWPlayer*>		PlayerList;
-	list<WoWUnit*>			UnitList;
+	list<WoWContainer>	ContainerList;
+	list<WoWGameObject>	GameObjectList;
+	list<WoWItem>		ItemList;
+	list<WoWPlayer>		PlayerList;
+	list<WoWUnit>		UnitList;
 };
 
-extern CObjectManager* ObjectManager;
+extern CObjectManager ObjectManager;
+extern WoWLocalPlayer* Me;
 
 #endif

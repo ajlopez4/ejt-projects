@@ -20,21 +20,21 @@
 const double CLocation::PI = 3.1415926;
 
 double CLocation::Bearing() {
-	CLocation playerPos = ObjectManager->GetLocalPlayer()->Location();
+	CLocation playerPos = Me->Location();
 	double facing = NegativeAngle((float)atan2((double)(Y - playerPos.Y), (double)(X - playerPos.X)));
-	return (double)(NegativeAngle(facing - ObjectManager->GetLocalPlayer()->Facing()) < PI);
+	return (double)(NegativeAngle(facing - Me->Facing()) < PI);
 }
 
 double CLocation::GetDistanceTo(CLocation l) {
-	return GetDistanceToFlat(l) + abs(Z - l.Z);
+	return sqrt(pow((X - l.X), 2) + pow((Y - l.Y), 2) + pow((Z - l.Z), 2));
 }
 
 double CLocation::GetDistanceToFlat(CLocation l) {
-	return abs(X - l.X) + abs(Y - l.Y);
+	return sqrt(pow((X - l.X), 2) + pow((Y - l.Y), 2));
 }
 
 double CLocation::GetDistanceToSelf() {
-	return GetDistanceTo(ObjectManager->GetLocalPlayer()->Location());
+	return GetDistanceTo(Me->Location());
 }
 
 double CLocation::FacingTo(CLocation l) {

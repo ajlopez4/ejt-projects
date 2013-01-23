@@ -46,7 +46,7 @@ private:
 		list<HWND> children;
 	};
 
-	list<TabStruct*> TabList;
+	list<TabStruct> TabList;
 };
 
 #endif

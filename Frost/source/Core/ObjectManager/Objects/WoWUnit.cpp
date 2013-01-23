@@ -24,15 +24,15 @@ WoWUnit::WoWUnit(unsigned int objPtr) : WoWObject(objPtr) {
 CLocation WoWUnit::Location() {
 	CLocation l;
 
-	l.X = Mem->Read<float>(ObjectPointer + Offsets::UnitX);
-	l.Y = Mem->Read<float>(ObjectPointer + Offsets::UnitY);
-	l.Z = Mem->Read<float>(ObjectPointer + Offsets::UnitZ);
+	l.X = Mem.Read<float>(ObjectPointer + Offsets::UnitX);
+	l.Y = Mem.Read<float>(ObjectPointer + Offsets::UnitY);
+	l.Z = Mem.Read<float>(ObjectPointer + Offsets::UnitZ);
 
 	return l;
 }
 
 float WoWUnit::Facing() {
-	return Mem->Read<float>(ObjectPointer + Offsets::UnitR);
+	return Mem.Read<float>(ObjectPointer + Offsets::UnitR);
 }
 
 unsigned long WoWUnit::CharmedBy() {
@@ -76,7 +76,6 @@ int WoWUnit::BaseMana() {
 }
 
 int WoWUnit::Power() {
-
 	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_POWER);
 }
 
@@ -89,7 +88,7 @@ int WoWUnit::PowerPercentage() {
 }
 
 LPSTR WoWUnit::PowerType() {
-	return Constants::PowerTypes[GetDescriptorField<char>(Descriptors::UNIT_FIELD_DISPLAY_POWER)];
+	return 0;
 }
 
 bool WoWUnit::Dead() {
@@ -97,39 +96,33 @@ bool WoWUnit::Dead() {
 }
 
 string WoWUnit::Name() {
-	unsigned int u1 = Mem->Read<unsigned int>(ObjectPointer + Offsets::UnitName1);
-	unsigned int u2 = Mem->Read<unsigned int>(u1 + Offsets::UnitName2);
-	string ret = Mem->ReadString(u2, 32);
+	unsigned int u1 = Mem.Read<unsigned int>(ObjectPointer + Offsets::UnitName1);
+	unsigned int u2 = Mem.Read<unsigned int>(u1 + Offsets::UnitName2);
+	string ret = Mem.ReadString(u2, 32);
 	return ret;
 }
 
-WoWUnit WoWUnit::Target() {
-	for each(WoWUnit* target in ObjectManager->GetUnits()) {
-		if(target->Guid() == TargetGuid())
-			return *target;
+WoWUnit WoWUnit::Target() { // TODO: Doesn't get players.
+	for each(WoWUnit target in ObjectManager.GetUnits()) {
+		if(target.Guid() == TargetGuid())
+			return target;
 	}
 
 	return NULL;
 }
 
 WoWUnit WoWUnit::Pet() {
-	for each(WoWUnit* unit in ObjectManager->GetUnits()) {
+	for each(WoWUnit unit in ObjectManager.GetUnits()) {
+		if(unit.SummonedBy() == this->Guid())
+			return unit;
 	}
+
 	return NULL;
 }
 
 unsigned long WoWUnit::TargetGuid() {
 	return GetDescriptorField<unsigned long>(Descriptors::UNIT_FIELD_TARGET);
 }
-	int DisplayID();
-	int MountDisplayID();
-	bool Mounted();
-	bool Tagged();
-	bool TaggedByMe();
-	bool TaggedByOther();
-	bool CastingBar();
-	bool Casting();
-	bool ChanneledCasting();
 
 int WoWUnit::DisplayID() {
 	return GetDescriptorField<int>(Descriptors::UNIT_FIELD_DISPLAY_ID);
@@ -157,7 +150,7 @@ bool WoWUnit::TaggedByOther() {
 } */
 
 bool WoWUnit::CastingBar() {
-	return Mem->Read<bool>(ObjectPointer + Offsets::UnitCast);
+	return Mem.Read<bool>(ObjectPointer + Offsets::UnitCast);
 }
 
 bool WoWUnit::Casting() {
@@ -165,5 +158,5 @@ bool WoWUnit::Casting() {
 }
 
 bool WoWUnit::ChanneledCasting() {
-	return Mem->Read<bool>(ObjectPointer + Offsets::UnitChannel);
+	return Mem.Read<bool>(ObjectPointer + Offsets::UnitChannel);
 }

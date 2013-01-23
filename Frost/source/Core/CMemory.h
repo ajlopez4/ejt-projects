@@ -54,6 +54,6 @@ public:
 private:
 };
 
-extern CMemory* Mem;
+extern CMemory Mem;
 
 #endif
