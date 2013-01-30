@@ -32,7 +32,7 @@ public:
 	// Adds a control to the tab
 	void AddControl(LPSTR, HWND);
 
-	void SetSize(RECT);
+	void SetPos(int x, int y, int width, int height);
 	void SwitchTab(LPSTR, int);
 
 	HWND Handle() { return hwnd; }

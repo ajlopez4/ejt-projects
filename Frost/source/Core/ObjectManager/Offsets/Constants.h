@@ -22,11 +22,9 @@
 // http://www.ownedcore.com/forums/world-of-warcraft/world-of-warcraft-bots-programs/wow-memory-editing/257771-wow-constant-data-enums-structs-etc.html
 */
 
-namespace Constants {
-	static const LPSTR PowerTypes[] = { "Mana", "Rage", "Focus", "Energy", "Happiness", "Runic Power", "Runes", "Health", "unk" };
-
-	namespace Shapeshift {
-		enum Form {
+//namespace Constants {
+	namespace ShapeshiftForm {
+		enum Enum {
 			Normal = 0,
 			Cat = 1,
 			TreeOfLife = 2,
@@ -41,17 +39,17 @@ namespace Constants {
 			GhostWolf = 16,
 			BattleStance = 17,
 			DefensiveStance = 18,
-			BerserkerStance = 19,
-			EpicFlightForm = 27,
-			Shadow = 28,
+			Berserkerstance = 19,
+			EpicfFightForm = 27,
+			shadow = 28,
 			Stealth = 30,
 			Moonkin = 31,
 			SpiritOfRedemption = 32
 		};
 	}
 
-	namespace Stand {
-		enum State {
+	namespace StandStance {
+		enum Enum {
 			Stand = 0,
 			Sit = 1,
 			SittingInChair = 2,
@@ -65,8 +63,8 @@ namespace Constants {
 		};
 	}
 
-	namespace PvP {
-		enum State {
+	namespace PvPState {
+		enum Enum {
 			None = 0,
 			PVP = 0x1,
 			FFAPVP = 0x4,
@@ -74,8 +72,8 @@ namespace Constants {
 		};
 	}
 
-	namespace WoWItem {
-			enum Type {
+	namespace WoWItemType {
+		enum Enum {
 			Consumable,
 			Container,
 			Weapon,
@@ -88,29 +86,36 @@ namespace Constants {
 			Recipe,
 			Money,
 			Quiver,
-			QUest,
+			Quest,
 			Key,
 			Permanent,
 			Misc
 		};
 	}
 	
-	namespace WoWPower {
-		enum Type {
+	namespace WoWPowerType {
+		enum Enum {
 			Mana,
 			Rage,
 			Focus,
 			Energy,
-			Happiness,
-			RunicPower,
+			Chi,
 			Runes,
-			Health,
-			UNKNOWN
+			RunicPower,
+			SoulShards,
+			Eclipse,
+			HolyPower,
+			Alternate,
+			DarkForce,
+			LightForce,
+			ShadowOrbs,
+			BurningEmbers,
+			DemonicFury,
 		};
 	}
 	
-	namespace WoWObjectType {
-		enum Flag {
+	namespace WoWObjectTypeFlag {
+		enum Enum {
 			Object = 0x1,
 			Item = 0x2,
 			Container = 0x4,
@@ -124,8 +129,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace WoWObject {
-		enum Type {
+	namespace WoWObjectType {
+		enum Enum {
 			Object = 0,
 			Item = 1,
 			Container = 2,
@@ -138,9 +143,9 @@ namespace Constants {
 			AreaTrigger = 9
 		};
 	}
-	
-	namespace WoWGameObject {
-		enum Type {
+
+	namespace WoWGameObjectType {
+		enum Enum {
 			Door = 0,
 			Button = 1,
 			QuestGiver = 2,
@@ -169,9 +174,9 @@ namespace Constants {
 			FORCEDWORD = 0xFFFFFFFF,
 		};
 	}
-	
-	namespace WoWEquip {
-		enum WoWEquipSlot {
+
+	namespace WoWEquipSlot {
+		enum Enum {
 			Head = 0,
 			Neck,
 			Shoulders,
@@ -193,9 +198,9 @@ namespace Constants {
 			Tabard
 		};
 	}
-	
+
 	namespace WoWClass {
-		enum Names {
+		enum Enum {
 			None = 0,
 			Warrior = 1,
 			Paladin = 2,
@@ -206,12 +211,13 @@ namespace Constants {
 			Shaman = 7,
 			Mage = 8,
 			Warlock = 9,
+			Monk = 10,
 			Druid = 11,
 		};
 	}
-	
-	namespace WoWClassification {
-		enum Names {
+
+	namespace WoWClassificationNames {
+		enum Enum {
 			Normal = 0,
 			Elite = 1,
 			RareElite = 2,
@@ -219,29 +225,29 @@ namespace Constants {
 			Rare = 4
 		};
 	}
-	
+
 	namespace WoWRace {
-		enum Names {
+		enum Enum {
 			Human = 1,
-			Orc,
-			Dwarf,
-			NightElf,
-			Undead,
-			Tauren,
-			Gnome,
-			Troll,
-			Goblin,
-			BloodElf,
-			Draenei,
-			FelOrc,
-			Naga,
-			Broken,
-			Skeleton = 15,
+			Orc = 2,
+			Dwarf = 3,
+			NightElf = 4,
+			Undead = 5,
+			Tauren = 6,
+			Gnome = 7,
+			Troll = 8,
+			Goblin = 9,
+			BloodElf = 10,
+			Draenei = 11,
+
+			Worgen = 22,
+
+			Pandaren = 24,
 		};
 	}
 	
 	namespace WoWCreature {
-		enum Type {
+		enum Enum {
 			Unknown = 0,
 			Beast,
 			Dragon,
@@ -260,15 +266,15 @@ namespace Constants {
 	}
 	
 	namespace WoWGender {
-		enum Names {
+		enum Enum {
 			Male,
 			Female,
 			Unknown
 		};
 	}
 	
-	namespace WoWUnit {
-		enum Relation {
+	namespace WoWUnitRelation {
+		enum Enum {
 			Hated = 0,
 			Hostile = 1,
 			Unfriendly = 2,
@@ -277,8 +283,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace WoWDispel {
-		enum Type {
+	namespace WoWDispelType {
+		enum Enum {
 			None = 0,
 			Magic = 1,
 			Curse = 2,
@@ -293,8 +299,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace WoWQuest {
-		enum Type {
+	namespace WoWQuestType {
+		enum Enum {
 			Group = 1,
 			Life = 21,
 			PvP = 41,
@@ -309,8 +315,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace Sheath {
-		enum Type {
+	namespace SheathType {
+		enum Enum {
 			Undetermined = -1,
 			None = 0,
 			Melee = 1,
@@ -326,8 +332,8 @@ namespace Constants {
     /// The direction of movement in WoW as per the CGInputControl_ToggleControlBit function.
     /// These are actually the flags that are set/unset!
     /// </summary>
-	namespace MovementDirection {
-		enum Flags {
+	namespace MovementDirectionFlags {
+		enum Enum {
 			None = 0,
 			RMouse = (1 << 0), // 0x1,
 			LMouse = (1 << 1), // 0x2,
@@ -350,9 +356,9 @@ namespace Constants {
 			// Or mouse input flag? (Flag used: 0x2000001)
 		};
 	}
-		
-	namespace Movement {
-		enum Flags {
+	
+	namespace MovementFlags {
+		enum Enum {
 			Forward = 0x1,
 			Backward = 0x2,
 			StrafeLeft = 0x4,
@@ -403,18 +409,18 @@ namespace Constants {
 			StoppedMask = 0x3100f,
 		};
 	}
-	
-	namespace State {
-		enum Flag {
+
+	namespace StateFlag {
+		enum Enum {
 			None = 0,
 			AlwaysStand = 0x1,
 			Sneaking = 0x2,
 			UnTrackable = 0x4,
 		};
 	}
-	
-	namespace UnitDynamic {
-		enum Flags {
+
+	namespace UnitDynamicFlags {
+		enum Enum {
 			None = 0,
 			Lootable = 0x1,
 			TrackUnit = 0x2,
@@ -427,8 +433,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace Unit {
-		enum Flags {
+	namespace UnitFlags {
+		enum Enum {
 			None = 0,
 			Sitting = 0x1,
 			//SelectableNotAttackable_1 = 0x2,
@@ -464,8 +470,10 @@ namespace Constants {
 			Sheathe = 0x40000000,
 			//Flag_31_0x80000000 = 0x80000000,
 		};
+	}
 
-		enum Flags2 {
+	namespace UnitFlags2 {
+		enum Enum {
 			FeignDeath = 0x1,
 			NoModel = 0x2,
 			Flag_0x4 = 0x4,
@@ -489,8 +497,10 @@ namespace Constants {
 			Flag_0x800 = 0x800,
 			Flag_0x1000 = 0x1000,
 		};
+	}
 
-		enum NPCFlags {
+	namespace NPCFlags {
+		enum Enum {
 			UNIT_NPC_FLAG_NONE = 0x00000000,
 			UNIT_NPC_FLAG_GOSSIP = 0x00000001, // 100%
 			UNIT_NPC_FLAG_QUESTGIVER = 0x00000002, // guessed, probably ok
@@ -521,8 +531,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace GameObject {
-		enum Flags {
+	namespace GameObjectFlags {
+		enum Enum {
 			/// <summary>
 			/// 0x1
 			/// Disables interaction while animated
@@ -573,8 +583,8 @@ namespace Constants {
 		};
 	}
 	
-	namespace Corpse {
-		enum Flags {
+	namespace CorpseFlags {
+		enum Enum {
 			CORPSE_FLAG_NONE = 0x00,
 			CORPSE_FLAG_BONES = 0x01,
 			CORPSE_FLAG_UNK1 = 0x02,
@@ -584,6 +594,6 @@ namespace Constants {
 			CORPSE_FLAG_LOOTABLE = 0x20
 		};
 	}
-}
+//}
 
 #endif

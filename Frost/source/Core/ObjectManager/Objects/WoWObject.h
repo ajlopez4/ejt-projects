@@ -40,12 +40,16 @@ public:
 
 	template<class T>
 	T GetDescriptorField(unsigned int field) {
-		field *= Descriptors::DescriptorMulti;
-		unsigned int descPtr = Mem.Read<unsigned int>(ObjectPointer + Descriptors::DescriptorOffset);
+		if(IsValid()) {
+			field *= Descriptors::DescriptorMulti;
+			unsigned int descPtr = Mem.Read<unsigned int>(ObjectPointer + Descriptors::DescriptorOffset);
 		
-		if(descPtr != 0) {
-			T ret = (T)Mem.Read<T>(descPtr + field);
-			return ret;
+			if(descPtr != 0) {
+				T ret = (T)Mem.Read<T>(descPtr + field);
+				return ret;
+			} else {
+				return (T)0;
+			}
 		} else {
 			return (T)0;
 		}

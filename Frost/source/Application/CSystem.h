@@ -46,13 +46,12 @@ public:
 
 	void Show() { ShowWindow(_hwnd, SW_SHOW); UpdateWindow(_hwnd); }
 private:
-
 	CTabControl MainTab;
-	CTabControl ObjectsTab;
+	//CTabControl ObjectsTab;
 
-	CListControl ListPlayers;
-	CListControl ListUnits;
-	CListControl ListObjects;
+	//CListControl ListPlayers;
+	//CListControl ListUnits;
+	//CListControl ListObjects;
 	
 	CTextControl TextPlayerName;
 	CTextControl TextPlayerHealth;

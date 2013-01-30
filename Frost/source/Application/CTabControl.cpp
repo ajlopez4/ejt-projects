@@ -70,8 +70,8 @@ void CTabControl::AddControl(LPSTR parent, HWND hControl) {
 	}
 }
 
-void CTabControl::SetSize(RECT newSize) {
-	SetWindowPos(hwnd, NULL, newSize.left, newSize.top, newSize.right, newSize.bottom, 0);
+void CTabControl::SetPos(int x, int y, int width, int height) {
+	SetWindowPos(hwnd, NULL, x, y, width, height, 0);
 }
 
 void CTabControl::SwitchTab(LPSTR title = "", int pos = -1) {

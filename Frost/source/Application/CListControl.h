@@ -30,7 +30,7 @@ public:
 	bool AddRow(LPSTR[]);
 	void Clear();
 
-	void SetPos(RECT);
+	void SetPos(int x, int y, int width, int height);
 
 	HWND Handle() { return hwnd; }
 private:

@@ -20,7 +20,7 @@ bool CListControl::Create(HWND hParent) {
 	hwnd = CreateWindow(
 		WC_LISTVIEW,
 		"",
-		WS_CHILD | LVS_REPORT,
+		WS_CHILD | LVS_REPORT | WS_BORDER,
 		0,
 		0,
 		200,
@@ -83,6 +83,6 @@ void CListControl::Clear() {
 	ListView_DeleteAllItems(hwnd);
 }
 
-void CListControl::SetPos(RECT rc) {
-	SetWindowPos(hwnd, NULL, rc.left, rc.top, rc.right, rc.bottom, 0);
+void CListControl::SetPos(int x, int y, int width, int height) {
+	SetWindowPos(hwnd, NULL, x, y, width, height, 0);
 }
