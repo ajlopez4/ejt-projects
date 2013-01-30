@@ -34,22 +34,22 @@ public:
 	bool Initialize();
 	void Pulse();
 	
-	list<WoWContainer> GetContainers() { return ContainerList; }
-	list<WoWGameObject> GetGameObjects() { return GameObjectList; }
-	list<WoWItem> GetItems() { return ItemList; }
-	list<WoWPlayer> GetPlayers() { return PlayerList; }
-	list<WoWUnit> GetUnits() {  return UnitList; }
+	list<WoWContainer*> GetContainers() { return list<WoWContainer*>(ContainerList); }
+	list<WoWGameObject*> GetGameObjects() { return list<WoWGameObject*>(GameObjectList); }
+	list<WoWItem*> GetItems() { return list<WoWItem*>(ItemList); }
+	list<WoWPlayer*> GetPlayers() { return list<WoWPlayer*>(PlayerList); }
+	list<WoWUnit*> GetUnits() {  return list<WoWUnit*>(UnitList); }
 private:
 	unsigned int objectManager;
 	unsigned long LocalPlayerGuid;
 
 	void PurgeLists();
 
-	list<WoWContainer>	ContainerList;
-	list<WoWGameObject>	GameObjectList;
-	list<WoWItem>		ItemList;
-	list<WoWPlayer>		PlayerList;
-	list<WoWUnit>		UnitList;
+	list<WoWContainer*>	 ContainerList;
+	list<WoWGameObject*> GameObjectList;
+	list<WoWItem*>		 ItemList;
+	list<WoWPlayer*>	 PlayerList;
+	list<WoWUnit*>		 UnitList;
 };
 
 extern CObjectManager ObjectManager;

@@ -44,22 +44,22 @@ void CObjectManager::Pulse() {
 		WoWObject * definedObj = new WoWObject(obj);
 
 		switch(definedObj->Type()) {
-			case Constants::WoWObject::Container:
-				ContainerList.push_back(WoWContainer(obj));
+			case WoWObjectType::Container:
+				ContainerList.push_back(new WoWContainer(obj));
 				break;
-			case Constants::WoWObject::GameObject:
-				GameObjectList.push_back(WoWGameObject(obj));
+			case WoWObjectType::GameObject:
+				GameObjectList.push_back(new WoWGameObject(obj));
 				break;
-			case Constants::WoWObject::Item:
-				ItemList.push_back(WoWItem(obj));
+			case WoWObjectType::Item:
+				ItemList.push_back(new WoWItem(obj));
 				break;
-			case Constants::WoWObject::Player:
-				PlayerList.push_back(WoWPlayer(obj));
+			case WoWObjectType::Player:
+				PlayerList.push_back(new WoWPlayer(obj));
 				if(definedObj->Guid() == LocalPlayerGuid && Me == NULL)
 					Me = new WoWLocalPlayer(obj);
 				break;
-			case Constants::WoWObject::Unit:
-				UnitList.push_back(WoWUnit(obj));
+			case WoWObjectType::Unit:
+				UnitList.push_back(new WoWUnit(obj));
 				break;
 		}
 
@@ -69,9 +69,9 @@ void CObjectManager::Pulse() {
 }
 
 void CObjectManager::PurgeLists() {
-	ContainerList.clear();
-	GameObjectList.clear();
-	ItemList.clear();
-	PlayerList.clear();
-	UnitList.clear();
+	while(!ContainerList.empty()) delete ContainerList.back(), ContainerList.pop_back();
+	while(!GameObjectList.empty()) delete GameObjectList.back(), GameObjectList.pop_back();
+	while(!ItemList.empty()) delete ItemList.back(), ItemList.pop_back();
+	while(!PlayerList.empty()) delete PlayerList.back(), PlayerList.pop_back();
+	while(!UnitList.empty()) delete UnitList.back(), UnitList.pop_back();
 }

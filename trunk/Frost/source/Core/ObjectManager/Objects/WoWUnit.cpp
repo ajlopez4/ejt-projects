@@ -87,8 +87,93 @@ int WoWUnit::PowerPercentage() {
 	if(MaxPower() == 0) return 0; else return (100 * Power()) / MaxPower();
 }
 
-LPSTR WoWUnit::PowerType() {
-	return 0;
+WoWPowerType::Enum WoWUnit::PowerType() {
+	unsigned int overridePowerId = GetDescriptorField<unsigned int>(Descriptors::UNIT_FIELD_OVERRIDE_DISPLAY_POWER_ID);
+	if(overridePowerId == 0)
+		return (WoWPowerType::Enum)(GetDescriptorField<unsigned int>(Descriptors::UNIT_FIELD_DISPLAY_POWER) >> 24);
+	else
+		return (WoWPowerType::Enum)overridePowerId;
+}
+
+LPSTR WoWUnit::PowerTypeName() {
+	switch(PowerType()) {
+		case 0: return "Mana";
+		case 1: return "Rage";
+		case 2: return "Focus";
+		case 3: return "Chi";
+		case 4: return "Runes";
+		case 5: return "Runic Power";
+		case 6: return "Soulshards";
+		case 7: return "Eclipse";
+		case 8: return "Holy Power";
+		case 9: return "Alternate";
+		case 11: return "Dark Force";
+		case 12: return "Light Force";
+		case 13: return "Shadow Orbs";
+		case 14: return "Burning Embers";
+		case 15: return "Demonic Fury";
+		default: return "";
+	}
+}
+
+WoWRace::Enum WoWUnit::Race() {
+	return (WoWRace::Enum)(GetDescriptorField<unsigned int>(Descriptors::UNIT_FIELD_DISPLAY_POWER) & 0xFF);
+}
+
+LPSTR WoWUnit::RaceName() {
+	switch(Race()) {
+		case 1: return "Human";
+		case 2: return "Orc";
+		case 3: return "Dwarf";
+		case 4: return "Night Elf";
+		case 5: return "Undead";
+		case 6: return "Tauren";
+		case 7: return "Gnome";
+		case 8: return "Troll";
+		case 9: return "Goblin";
+		case 11: return "Blood Elf";
+		case 12: return "Draenei";
+		case 22: return "Worgen";
+		case 24: 
+		case 25: 
+		case 26: return "Pandaren";
+		default: return "";
+	}
+}
+
+WoWClass::Enum WoWUnit::Class() {
+	return (WoWClass::Enum)((GetDescriptorField<unsigned int>(Descriptors::UNIT_FIELD_DISPLAY_POWER) >> 8) & 0xFF);
+}
+
+LPSTR WoWUnit::ClassName() {
+	switch(Class()) {
+		case 0: return "None";
+		case 1: return "Warrior";
+		case 2: return "Paladin";
+		case 3: return "Hunter";
+		case 4: return "Rogue";
+		case 5: return "Priest";
+		case 6: return "Death Knight";
+		case 7: return "Shaman";
+		case 8: return "Mage";
+		case 9: return "Warlock";
+		case 10: return "Monk";
+		case 11: return "Druid";
+		default: return "";
+	}
+}
+
+WoWGender::Enum WoWUnit::Gender() {
+	return (WoWGender::Enum)((GetDescriptorField<unsigned int>(Descriptors::UNIT_FIELD_DISPLAY_POWER) >> 16) & 0xFF);
+}
+
+LPSTR WoWUnit::GenderName() {
+	switch(Gender()) {
+		case 0: return "Male";
+		case 1: return "Female";
+		case 2: return "Unknown";
+		default: return "";
+	}
 }
 
 bool WoWUnit::Dead() {
@@ -102,18 +187,25 @@ string WoWUnit::Name() {
 	return ret;
 }
 
-WoWUnit WoWUnit::Target() { // TODO: Doesn't get players.
-	for each(WoWUnit target in ObjectManager.GetUnits()) {
-		if(target.Guid() == TargetGuid())
+WoWUnit* WoWUnit::Target() { // TODO: Doesn't get players.
+	// First check units
+	for each(WoWUnit* target in ObjectManager.GetUnits()) {
+		if(target->Guid() == TargetGuid())
+			return target;
+	}
+	
+	// Check if it could be a player
+	for each(WoWPlayer* target in ObjectManager.GetPlayers()) {
+		if(target->Guid() == TargetGuid())
 			return target;
 	}
 
 	return NULL;
 }
 
-WoWUnit WoWUnit::Pet() {
-	for each(WoWUnit unit in ObjectManager.GetUnits()) {
-		if(unit.SummonedBy() == this->Guid())
+WoWUnit* WoWUnit::Pet() {
+	for each(WoWUnit* unit in ObjectManager.GetUnits()) {
+		if(unit->SummonedBy() == this->Guid())
 			return unit;
 	}
 

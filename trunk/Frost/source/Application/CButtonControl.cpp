@@ -40,6 +40,21 @@ void CButtonControl::Text(LPSTR text) {
 	SetWindowText(hwnd, text);
 }
 
-void CButtonControl::SetPos(RECT rc) {
-	SetWindowPos(hwnd, NULL, rc.left, rc.top, rc.right, rc.bottom, 0);
+void CButtonControl::Disable() {
+	EnableWindow(hwnd, false);
+}
+
+void CButtonControl::Enable() {
+	EnableWindow(hwnd, true);
+}
+
+
+bool CButtonControl::Enabled() {
+	BOOL ret;
+	ret = EnableWindow(hwnd, FALSE);
+	return (EnableWindow(hwnd, ret) == TRUE);
+}
+
+void CButtonControl::SetPos(int x, int y, int width, int height) {
+	SetWindowPos(hwnd, NULL, x, y, width, height, 0);
 }

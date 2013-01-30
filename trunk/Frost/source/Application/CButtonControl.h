@@ -24,8 +24,11 @@ class CButtonControl {
 public:
 	bool Create(HWND);
 	void Text(LPSTR text);
+	void Disable();
+	void Enable();
+	bool Enabled();
 
-	void SetPos(RECT);
+	void SetPos(int x, int y, int width, int height);
 
 	HWND Handle() { return hwnd; }
 private:

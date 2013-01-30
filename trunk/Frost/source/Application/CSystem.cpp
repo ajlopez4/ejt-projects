@@ -22,7 +22,8 @@ CSystem::CSystem(const char* wndName, const char* className) : AbstractWindow() 
 	_hInstance = GetModuleHandle(NULL);
 	_style = WS_OVERLAPPEDWINDOW | WS_VISIBLE;
 	_x = _y = CW_USEDEFAULT;
-	_height = _width = CW_USEDEFAULT;
+	_height = 600;
+	_width = 550;
 	_styleEx = 0;
 	_hwndParent = 0;
 	_hMenu = 0;
@@ -50,17 +51,19 @@ void CSystem::Run() {
 		DispatchMessage(&msg);
 	}
 
-	delete Me;
-	Me = 0;
+	if(Me) {
+		delete Me;
+		Me = 0;
+	}
 }
 
-LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
+LRESULT __stdcall CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 	switch(msg) {
 		case WM_CREATE:
 			{
 				MainTab.Create(hwnd);
 				MainTab.AddTab("General");
-				MainTab.AddTab("Object Manager");
+				//MainTab.AddTab("Object Manager");
 
 				/* GENERAL TAB */
 				TextPlayerName.Create(MainTab.Handle());
@@ -103,7 +106,7 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				TextTargetLocation.Text("Target Location");
 				MainTab.AddControl("General", TextTargetLocation.Handle());
 
-				/* OBJECT MANAGER TAB */
+				/* OBJECT MANAGER TAB 
 				ObjectsTab.Create(MainTab.Handle());
 				ObjectsTab.AddTab("Players");
 				ObjectsTab.AddTab("Units");
@@ -133,13 +136,13 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 				ListObjects.AddColumn("GUID", 100);
 
 				ObjectsTab.AddControl("Objects", ListObjects.Handle());
-
+				*/
 				MainTab.SwitchTab("General", -1);
-				ObjectsTab.SwitchTab("Players", -1);
+				//ObjectsTab.SwitchTab("Players", -1);
 
 				SendMessage(hwnd, WM_SIZE, 0, 0); // Force resize
 
-				SetTimer(hwnd, TIMER_UPDATE_INFO, 50, (TIMERPROC)NULL);
+				SetTimer(hwnd, TIMER_UPDATE_INFO, 1000, (TIMERPROC)NULL);
 			}
 			break;
 		case WM_NOTIFY:
@@ -153,8 +156,8 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 						
 						if(((LPNMHDR)lParam)->hwndFrom == MainTab.Handle())
 							MainTab.SwitchTab("", page);
-						else if(((LPNMHDR)lParam)->hwndFrom == ObjectsTab.Handle())
-							ObjectsTab.SwitchTab("", page);
+//						else if(((LPNMHDR)lParam)->hwndFrom == ObjectsTab.Handle())
+//							ObjectsTab.SwitchTab("", page);
 					}
 					break;
 			}
@@ -163,7 +166,9 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 			switch(wParam) {
 				case TIMER_UPDATE_INFO:
 					if(Me->InGame()) {
+						ObjectManager.Pulse();
 						/* TESTING */
+						/*
 						ListPlayers.Clear();
 						for each(WoWPlayer player in ObjectManager.GetPlayers()) {
 							if(player.IsValid()) {
@@ -173,13 +178,13 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 								char power[64] = {0};
 								char level[64] = {0};
 								sprintf_s(guid, "0x%X", (player.Guid() & 0xFFFFFFFF));
-								sprintf_s(name, "%s", player.Name().c_str());
+								sprintf_s(name, "%s, 0x%X", player.Name().c_str(), player.Race() & 0xFF);
 								if(player.Dead()) {
 									sprintf_s(health, "Dead");
 									sprintf_s(power, "Dead");
 								} else {
 									sprintf_s(health, "%d/%d (%d%%)", player.Health(), player.MaxHealth(), player.HealthPercentage());
-									sprintf_s(power, "%d/%d (%d%%)", player.Power(), player.MaxPower(), player.PowerPercentage());
+									sprintf_s(power, "%s %d/%d (%d%%)", player.PowerType(), player.Power(), player.MaxPower(), player.PowerPercentage());
 								}
 								sprintf_s(level, "%d", player.Level());
 								LPSTR row[] = { guid, name, health, power, level };
@@ -202,42 +207,41 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 									sprintf_s(power, "Dead");
 								} else {
 									sprintf_s(health, "%d/%d (%d%%)", unit.Health(), unit.MaxHealth(), unit.HealthPercentage());
-									sprintf_s(power, "%d/%d (%d%%)", unit.Power(), unit.MaxPower(), unit.PowerPercentage());
+									sprintf_s(power, "%s %d/%d (%d%%)", unit.PowerType(), unit.Power(), unit.MaxPower(), unit.PowerPercentage());
 								}
 								sprintf_s(level, "%d", unit.Level());
 								LPSTR row[] = { guid, name, health, power, level };
 								ListUnits.AddRow(row);
 							}
 						}
-						LPSTR powerType = Me->PowerType();
+						*/
 						/* END OF TESTING */
 						
 						TextPlayerName.Text("Name: %s", Me->Name().c_str());
 						TextPlayerHealth.Text("Health: %d/%d (%d%%)", Me->Health(),
 							Me->MaxHealth(),
 							Me->HealthPercentage());
-						TextPlayerPower.Text("%s: %d/%d (%d%%)", Me->PowerType(),
+						TextPlayerPower.Text("%s: %d/%d (%d%%)", Me->PowerTypeName(),
 							Me->Power(),
 							Me->MaxPower(),
 							Me->PowerPercentage());
-						TextPlayerLevel.Text("Level: %d", Me->Level());
+						TextPlayerLevel.Text("Level: %d %s %s %s", Me->Level(), Me->GenderName(), Me->RaceName(), Me->ClassName());
 						TextPlayerLocation.Text("%s\nF: %4.2f", Me->Location().ToString().c_str(),
-							Me->Location().FacingTo(Me->Target().Location()),
-								Me->Facing());
-
-						if(Me->Target().IsValid()) {
-							TextTargetName.Text("Name: %s", Me->Target().Name().c_str());
-							TextTargetHealth.Text("Health: %d/%d (%d%%)", Me->Target().Health(),
-								Me->Target().MaxHealth(),
-								Me->Target().HealthPercentage());
-							TextTargetPower.Text("%s: %d/%d (%d%%)", Me->Target().PowerType(),
-								Me->Target().Power(),
-								Me->Target().MaxPower(),
-								Me->Target().PowerPercentage());
-							TextTargetLevel.Text("Level: %d", Me->Target().Level());
-							TextTargetLocation.Text("%s\n<2D: %4.2f 3D: %4.2f>", Me->Target().Location().ToString().c_str(),
-								Me->Location().GetDistanceToFlat(Me->Target().Location()),
-								Me->Location().GetDistanceTo(Me->Target().Location()));
+							Me->Facing());
+						
+						if(Me->Target() != NULL && Me->Target()->IsValid()) {
+							TextTargetName.Text("Name: %s", Me->Target()->Name().c_str());
+							TextTargetHealth.Text("Health: %d/%d (%d%%)", Me->Target()->Health(),
+								Me->Target()->MaxHealth(),
+								Me->Target()->HealthPercentage());
+							TextTargetPower.Text("%s: %d/%d (%d%%)", Me->Target()->PowerTypeName(),
+								Me->Target()->Power(),
+								Me->Target()->MaxPower(),
+								Me->Target()->PowerPercentage());
+							TextTargetLevel.Text("Level: %d %s %s %s", Me->Target()->Level(), Me->Target()->GenderName(), Me->Target()->RaceName(), Me->Target()->ClassName());
+							TextTargetLocation.Text("%s\n<3D: %4.2f FT: %4.2f>", Me->Target()->Location().ToString().c_str(),
+								Me->Location().GetDistanceTo(Me->Target()->Location()),
+								Me->Location().FacingTo(Me->Target()->Location()));
 						} else {
 							TextTargetName.Text("N/A");
 							TextTargetHealth.Text("N/A");
@@ -252,28 +256,23 @@ LRESULT CALLBACK CSystem::wndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lPa
 		case WM_SIZE:
 			{
 				RECT rcClient;
-				RECT rcMain;
+				RECT rcMain = {0};
 				GetClientRect(hwnd, &rcClient);
-				GetClientRect(MainTab.Handle(), &rcMain);
+				TabCtrl_AdjustRect(MainTab.Handle(), false, &rcMain);
 
-				MainTab.SetSize(rcClient);
-
-				rcClient.top += 28;
-				rcClient.left += 5;
-				rcClient.bottom = rcClient.bottom - rcClient.top - 5;
-				rcClient.right = rcClient.right - rcClient.left - 5;
-
-				ObjectsTab.SetSize(rcClient);
+				MainTab.SetPos(rcClient.left, rcClient.top, rcClient.right, rcClient.bottom);
+/*
+				ObjectsTab.SetPos(rcClient.left + 5, rcClient.top + 28, rcClient.right - rcClient.left - 5, rcClient.bottom - rcClient.top - 5);
 
 				rcClient.left -= 4;
 				rcClient.top -= 4;
 				rcClient.bottom = rcClient.bottom - rcClient.top - 2;
 				rcClient.right = rcClient.right - rcClient.left - 3;
 				
-				ListPlayers.SetPos(rcClient);
-				ListUnits.SetPos(rcClient);
-				ListObjects.SetPos(rcClient);
-				
+				ListPlayers.SetPos(rcClient.left + 1, rcClient.top + 24, rcClient.right - rcClient.left - 2, rcClient.bottom - rcClient.top - 3);
+				ListUnits.SetPos(rcClient.left + 1, rcClient.top + 24, rcClient.right - rcClient.left - 2, rcClient.bottom - rcClient.top - 3);
+				ListObjects.SetPos(rcClient.left + 1, rcClient.top + 24, rcClient.right - rcClient.left - 2, rcClient.bottom - rcClient.top - 3);
+*/
 				TextPlayerName.SetPos(rcMain.left + 10, rcMain.top + 35, 250, 20);
 				TextPlayerHealth.SetPos(rcMain.left + 10, rcMain.top + 55, 250, 20);
 				TextPlayerPower.SetPos(rcMain.left + 10, rcMain.top + 75, 250, 20);
